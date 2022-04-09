@@ -1,8 +1,8 @@
-import { HttpRequest, AddSchedule, Validation } from './add-schedule-controller-protocols'
-import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { HttpRequest, AddSchedule, Validation } from '.'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddScheduleController } from './add-schedule-controller'
 import { mockAddSchedule, mockValidation } from '@/presentation/test'
-import { MissingParamError, ServerError } from '@/presentation/errors'
+import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
 import { mockScheduleModel } from '@/domain/test'
 import MockDate from 'mockdate'
 
@@ -79,5 +79,12 @@ describe('AddSchedule Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
+  })
+
+  test('Should return 403 if AddSchedule returns null', async () => {
+    const { sut, addScheduleStub } = makeSut()
+    jest.spyOn(addScheduleStub, 'add').mockReturnValueOnce(Promise.resolve(null as any))
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(forbidden(new NameInUseError()))
   })
 })
