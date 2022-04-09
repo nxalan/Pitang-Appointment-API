@@ -2,8 +2,7 @@ export type ScheduleModel = {
   id: string
   name: string
   birthday: Date
-  scheduleDate: Date
-  scheduleDay: Date
+  scheduledDate: Date
   status: string
   ScheduleComments: string
 }

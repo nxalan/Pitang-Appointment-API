@@ -1,2 +1,9 @@
-commands
 node_modules
+dist
+coverage
+commands
+globalConfig.json
+.env
+data
+!src/data
+.vscode

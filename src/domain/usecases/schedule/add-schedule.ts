@@ -3,10 +3,10 @@ import { ScheduleModel } from '@/domain/models/schedule'
 export type AddScheduleParams = {
   id?: string
   name: string
-  email: string
-  password: string
+  birthday: Date
+  scheduledDate: Date
 }
 
-export interface addSchedule {
+export interface AddSchedule {
   add (schedule: AddScheduleParams): Promise<ScheduleModel>
 }
