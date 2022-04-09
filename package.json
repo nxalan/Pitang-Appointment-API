@@ -1,5 +1,5 @@
 {
-  "name": "Vaccines-API",
+  "name": "vaccines-api",
   "version": "1.0.0",
   "description": "A simple vaccine scheduler",
   "main": "index.js",
