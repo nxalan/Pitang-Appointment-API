@@ -1,8 +1,8 @@
 import { HttpRequest, AddSchedule, Validation } from './add-schedule-controller-protocols'
-import { ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddScheduleController } from './add-schedule-controller'
 import { mockAddSchedule, mockValidation } from '@/presentation/test'
-import { ServerError } from '@/presentation/errors'
+import { MissingParamError, ServerError } from '@/presentation/errors'
 import { mockScheduleModel } from '@/domain/test'
 import MockDate from 'mockdate'
 
@@ -72,5 +72,12 @@ describe('AddSchedule Controller', () => {
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
     expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
+    const httpRequest = await sut.handle(mockRequest())
+    expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
   })
 })
