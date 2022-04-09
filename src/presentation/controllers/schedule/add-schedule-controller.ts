@@ -1,4 +1,4 @@
-import { HttpResponse, HttpRequest, Controller, AddSchedule, Validation } from './add-schedule-controller-protocols'
+import { HttpResponse, HttpRequest, Controller, AddSchedule, Validation } from '.'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 import { NameInUseError } from '@/presentation/errors'
 
