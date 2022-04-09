@@ -4,7 +4,13 @@
   "description": "A simple vaccine scheduler",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "npx jest --passWithNoTests --no-cache --runInBand",
+    "test:verbose": "npx jest --passWithNoTests",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --detectOpenHandles -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:ci": "npm test -- --coverage",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
@@ -14,6 +20,7 @@
   "author": "Alan Oliveira",
   "license": "ISC",
   "devDependencies": {
+    "@types/validator": "^13.7.1",
     "@types/node": "^17.0.22",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@types/jest": "^27.4.1",
@@ -27,6 +34,9 @@
     "husky": "^4.0.6",
     "lint-staged": "^10.0.0",
     "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "validator": "^13.7.0"
   },
   "bugs": {
     "url": "https://github.com/nxalan/VaccineAPI/issues"
