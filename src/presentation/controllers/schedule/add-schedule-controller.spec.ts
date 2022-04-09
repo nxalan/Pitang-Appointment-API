@@ -1,9 +1,9 @@
-import { HttpRequest, AddSchedule } from './add-schedule-controller-protocols'
+import { HttpRequest, AddSchedule, serverError } from './add-schedule-controller-protocols'
 import MockDate from 'mockdate'
 import { AddScheduleController } from './add-schedule-controller'
 import { mockAddSchedule } from '@/presentation/test'
+import { ServerError } from '@/presentation/errors'
 
-// MELHORAR MOCKREQUEST (domain/test/mock-schedule)
 const mockRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
@@ -44,5 +44,14 @@ describe('AddSchedule Controller', () => {
       birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
       scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1))
     })
+  })
+
+  test('Should return 500 if AddSchedule throws', async () => {
+    const { sut, addScheduleStub } = makeSut()
+    jest.spyOn(addScheduleStub, 'add').mockImplementationOnce(async () => {
+      return Promise.reject(new Error())
+    })
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
 })
