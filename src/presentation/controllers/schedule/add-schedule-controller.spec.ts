@@ -1,7 +1,7 @@
-import { HttpRequest, AddSchedule } from './add-schedule-controller-protocols'
+import { HttpRequest, AddSchedule, Validation } from './add-schedule-controller-protocols'
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddScheduleController } from './add-schedule-controller'
-import { mockAddSchedule } from '@/presentation/test'
+import { mockAddSchedule, mockValidation } from '@/presentation/test'
 import { ServerError } from '@/presentation/errors'
 import { mockScheduleModel } from '@/domain/test'
 import MockDate from 'mockdate'
@@ -17,14 +17,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: AddScheduleController
   addScheduleStub: AddSchedule
+  validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
   const addScheduleStub = mockAddSchedule()
-  const sut = new AddScheduleController(addScheduleStub)
+  const validationStub = mockValidation()
+  const sut = new AddScheduleController(addScheduleStub, validationStub)
   return {
     sut,
-    addScheduleStub
+    addScheduleStub,
+    validationStub
   }
 }
 
@@ -61,5 +64,13 @@ describe('AddSchedule Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(ok(mockScheduleModel()))
+  })
+
+  test('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validatespy = jest.spyOn(validationStub, 'validate')
+    const httpRequest = mockRequest()
+    await sut.handle(httpRequest)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
