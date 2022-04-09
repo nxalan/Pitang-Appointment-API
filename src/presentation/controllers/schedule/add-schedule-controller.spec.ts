@@ -1,8 +1,10 @@
-import { HttpRequest, AddSchedule, serverError } from './add-schedule-controller-protocols'
-import MockDate from 'mockdate'
+import { HttpRequest, AddSchedule } from './add-schedule-controller-protocols'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddScheduleController } from './add-schedule-controller'
 import { mockAddSchedule } from '@/presentation/test'
 import { ServerError } from '@/presentation/errors'
+import { mockScheduleModel } from '@/domain/test'
+import MockDate from 'mockdate'
 
 const mockRequest = (): HttpRequest => ({
   body: {
@@ -53,5 +55,11 @@ describe('AddSchedule Controller', () => {
     })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('Should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(ok(mockScheduleModel()))
   })
 })
