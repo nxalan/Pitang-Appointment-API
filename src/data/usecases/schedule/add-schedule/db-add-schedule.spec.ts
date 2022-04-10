@@ -1,6 +1,6 @@
 import { AddScheduleRepository, LoadScheduleByNameRepository } from '.'
 import { DbAddSchedule } from './db-add-schedule'
-import { mockAddScheduleParams } from '@/domain/test'
+import { mockAddScheduleParams, throwError } from '@/domain/test'
 import { mockAddScheduleRepository, mockLoadScheduleByNameRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
@@ -39,5 +39,12 @@ describe('DbAddSchedule Usecase', () => {
       birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
       scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1))
     })
+  })
+
+  test('Should throw if AddScheduleRepository throws', async () => {
+    const { sut, addScheduleRepositoryStub } = makeSut()
+    jest.spyOn(addScheduleRepositoryStub, 'add').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddScheduleParams())
+    await expect(promise).rejects.toThrow()
   })
 })
