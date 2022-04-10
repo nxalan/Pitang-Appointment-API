@@ -60,4 +60,11 @@ describe('DbAddSchedule Usecase', () => {
     const account = await sut.add(mockScheduleModel())
     expect(account).toBeNull()
   })
+
+  test('Should call LoadScheduleByNameRepository with correct name', async () => {
+    const { sut, loadScheduleByNameRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadScheduleByNameRepositoryStub, 'loadByName')
+    await sut.add(mockAddScheduleParams())
+    expect(loadSpy).toHaveBeenCalledWith('any_name')
+  })
 })
