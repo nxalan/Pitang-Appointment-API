@@ -37,7 +37,9 @@ describe('DbAddSchedule Usecase', () => {
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
-      scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1))
+      scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+      status: 'NOT VACCINED',
+      scheduleComments: ''
     })
   })
 
