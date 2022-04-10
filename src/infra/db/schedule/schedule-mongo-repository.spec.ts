@@ -42,7 +42,6 @@ describe('Schedule Mongo Repository', () => {
         const sut = makeSut()
         await scheduleCollection.insertOne(mockAddScheduleParams())
         const schedule = await sut.loadByName('any_name')
-        console.log(schedule)
         expect(schedule).toBeTruthy()
         expect(schedule.id).toBeTruthy()
         expect(schedule.name).toBe('any_name')

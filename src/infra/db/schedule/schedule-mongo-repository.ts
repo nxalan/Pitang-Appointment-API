@@ -1,8 +1,7 @@
-import { AddScheduleRepository } from '@/data/protocols/db/schedule/add-schedule-repository'
+import { AddScheduleRepository, LoadScheduleByNameRepository } from '@/data/protocols/db/schedule'
 import { AddScheduleParams } from '@/domain/usecases/schedule/add-schedule'
 import { ScheduleModel } from '@/domain/models/schedule'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
-import { LoadScheduleByNameRepository } from '@/data/protocols/db/schedule/load-schedule-by-name-repository'
 
 export class ScheduleMongoRepository implements AddScheduleRepository, LoadScheduleByNameRepository {
   async add (scheduleData: AddScheduleParams): Promise<ScheduleModel> {

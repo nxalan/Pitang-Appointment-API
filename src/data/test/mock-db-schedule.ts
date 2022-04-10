@@ -1,5 +1,5 @@
 import { mockScheduleModel } from '@/domain/test'
-import { AddScheduleRepository } from '@/data/protocols/db/schedule/add-schedule-repository'
+import { AddScheduleRepository } from '@/data/protocols/db/schedule'
 import { ScheduleModel, AddScheduleParams, LoadScheduleByNameRepository } from '@/data/usecases/schedule/add-schedule'
 
 export const mockAddScheduleRepository = (): AddScheduleRepository => {
