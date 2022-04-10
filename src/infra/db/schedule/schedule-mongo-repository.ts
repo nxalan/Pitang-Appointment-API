@@ -6,7 +6,6 @@ import { LoadScheduleByNameRepository } from '@/data/protocols/db/schedule/load-
 
 export class ScheduleMongoRepository implements AddScheduleRepository, LoadScheduleByNameRepository {
   async add (scheduleData: AddScheduleParams): Promise<ScheduleModel> {
-    console.log(scheduleData)
     const scheduleCollection = await MongoHelper.getCollection('schedules')
     const result = await scheduleCollection.insertOne(scheduleData)
     return MongoHelper.map(result.ops[0])

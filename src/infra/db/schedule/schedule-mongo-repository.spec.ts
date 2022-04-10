@@ -36,5 +36,25 @@ describe('Schedule Mongo Repository', () => {
       expect(schedule.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
       expect(schedule.scheduledDate).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
     })
+
+    describe('LoadByName', () => {
+      test('Should return an schedule on loadByName success', async () => {
+        const sut = makeSut()
+        await scheduleCollection.insertOne(mockAddScheduleParams())
+        const schedule = await sut.loadByName('any_name')
+        console.log(schedule)
+        expect(schedule).toBeTruthy()
+        expect(schedule.id).toBeTruthy()
+        expect(schedule.name).toBe('any_name')
+        expect(schedule.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
+        expect(schedule.scheduledDate).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+      })
+
+      test('Should return null if loadByName fails', async () => {
+        const sut = makeSut()
+        const account = await sut.loadByName('any_name')
+        expect(account).toBeFalsy()
+      })
+    })
   })
 })
