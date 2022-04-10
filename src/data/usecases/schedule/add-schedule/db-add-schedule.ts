@@ -7,8 +7,8 @@ export class DbAddSchedule implements AddSchedule {
   ) {}
 
   async add (scheduleData: AddScheduleParams): Promise<ScheduleModel> {
-    const account = await this.loadScheduleByNameRepository.loadByName(scheduleData.name)
-    if (!account) {
+    const schedule = await this.loadScheduleByNameRepository.loadByName(scheduleData.name)
+    if (!schedule) {
       const newSchedule = await this.addScheduleRepository.add(Object.assign(
         {}, scheduleData, { status: 'NOT VACCINED', scheduleComments: '' }))
       return newSchedule

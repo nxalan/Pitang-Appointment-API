@@ -51,8 +51,8 @@ describe('Schedule Mongo Repository', () => {
 
       test('Should return null if loadByName fails', async () => {
         const sut = makeSut()
-        const account = await sut.loadByName('any_name')
-        expect(account).toBeFalsy()
+        const schedule = await sut.loadByName('any_name')
+        expect(schedule).toBeFalsy()
       })
     })
   })

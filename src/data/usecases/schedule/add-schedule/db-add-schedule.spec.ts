@@ -59,8 +59,8 @@ describe('DbAddSchedule Usecase', () => {
   test('Should return null if LoadScheduleByNameRepository not return null', async () => {
     const { sut, loadScheduleByNameRepositoryStub } = makeSut()
     jest.spyOn(loadScheduleByNameRepositoryStub, 'loadByName').mockReturnValueOnce(Promise.resolve(mockScheduleModel()))
-    const account = await sut.add(mockScheduleModel())
-    expect(account).toBeNull()
+    const schedule = await sut.add(mockScheduleModel())
+    expect(schedule).toBeNull()
   })
 
   test('Should call LoadScheduleByNameRepository with correct name', async () => {
