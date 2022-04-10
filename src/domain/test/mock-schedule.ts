@@ -7,7 +7,7 @@ export const mockScheduleModel = (): ScheduleModel => ({
   birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
   scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)),
   status: 'NOT VACCINED',
-  ScheduleComments: ''
+  scheduleComments: ''
 })
 
 export const mockAddScheduleParams = (): AddScheduleParams => ({

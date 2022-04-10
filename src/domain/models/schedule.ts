@@ -4,5 +4,5 @@ export type ScheduleModel = {
   birthday: Date
   scheduledDate: Date
   status: string
-  ScheduleComments: string
+  scheduleComments: string
 }
