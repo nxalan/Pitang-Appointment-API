@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "validator": "^13.7.0",
-    "mongodb": "^3.5.1"
+    "mongodb": "^3.5.1",
+    "dotenv": "^16.0.0"
   },
   "bugs": {
     "url": "https://github.com/nxalan/VaccineAPI/issues"
