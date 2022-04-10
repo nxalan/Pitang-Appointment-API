@@ -1,5 +1,5 @@
 import { ScheduleModel } from '@/domain/models/schedule'
 
-export interface LoadAccountByEmailRepository {
-  loadByName (email: string): Promise<ScheduleModel>
+export interface LoadScheduleByNameRepository {
+  loadByName (name: string): Promise<ScheduleModel>
 }
