@@ -11,7 +11,7 @@ export class DateValidation implements Validation {
   validate (input: any): Error | undefined {
     const isValid = this.dateValidator.isValid(input[this.fieldName])
     if (!isValid) {
-      return new InvalidParamError('date')
+      return new InvalidParamError(this.fieldName)
     }
   }
 }
