@@ -5,7 +5,7 @@ import app from '@/main/config/app'
 
 let appointmentCollection: Collection
 
-describe('Login Routes', () => {
+describe('Appointment Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(global.__MONGO_URI__)
   })
