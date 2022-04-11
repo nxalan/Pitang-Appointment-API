@@ -1,6 +1,6 @@
 import { mockAppointmentModel } from '@/domain/test'
 import { AddAppointmentRepository } from '@/data/protocols/db/appointment'
-import { AppointmentModel, AddAppointmentParams, LoadAppointmentByNameRepository } from '@/data/usecases/appointment/add-appointment'
+import { AppointmentModel, AddAppointmentParams, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository } from '@/data/usecases/appointment/add-appointment'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
@@ -18,4 +18,13 @@ export const mockLoadAppointmentByNameRepository = (): LoadAppointmentByNameRepo
     }
   }
   return new LoadAppointmentByNameRepositoryStub()
+}
+
+export const mockLoadAppointmentByIdRepository = (): LoadAppointmentByIdRepository => {
+  class LoadAppointmentByIdRepositoryStub implements LoadAppointmentByIdRepository {
+    async loadById (id: string): Promise<AppointmentModel> {
+      return new Promise(resolve => resolve(mockAppointmentModel()))
+    }
+  }
+  return new LoadAppointmentByIdRepositoryStub()
 }
