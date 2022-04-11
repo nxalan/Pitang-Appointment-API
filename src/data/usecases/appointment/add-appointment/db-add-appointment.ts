@@ -10,7 +10,7 @@ export class DbAddAppointment implements AddAppointment {
     const appointment = await this.loadAppointmentByNameRepository.loadByName(appointmentData.name)
     if (!appointment) {
       const newAppointment = await this.addAppointmentRepository.add(Object.assign(
-        {}, appointmentData, { status: 'NOT VACCINED', appointmentComments: '' }))
+        {}, appointmentData, { status: 'NOT VACCINED', status_comment: '' }))
       return newAppointment
     }
     return null as any

@@ -8,7 +8,7 @@ describe('AddAppointmentValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
     makeAddAppointmentValidation()
     const validations: Validation[] = []
-    for (const field of ['name', 'birthday', 'appointmentdDate']) {
+    for (const field of ['name', 'birthday', 'appointment_date']) {
       validations.push(new RequiredFieldValidation(field))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)

@@ -4,7 +4,7 @@ export type AddAppointmentParams = {
   id?: string
   name: string
   birthday: Date
-  appointmentdDate: Date
+  appointment_date: Date
 }
 
 export interface AddAppointment {

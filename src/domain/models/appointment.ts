@@ -2,7 +2,7 @@ export type AppointmentModel = {
   id: string
   name: string
   birthday: Date
-  appointmentdDate: Date
+  appointment_date: Date
   status: string
-  appointmentComments: string
+  status_comment: string
 }

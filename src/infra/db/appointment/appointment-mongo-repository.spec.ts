@@ -34,7 +34,7 @@ describe('Appointment Mongo Repository', () => {
       expect(appointment.id).toBeTruthy()
       expect(appointment.name).toBe('any_name')
       expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-      expect(appointment.appointmentdDate).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+      expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
     })
 
     describe('LoadByName', () => {
@@ -46,7 +46,7 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment.id).toBeTruthy()
         expect(appointment.name).toBe('any_name')
         expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-        expect(appointment.appointmentdDate).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
       })
 
       test('Should return null if loadByName fails', async () => {

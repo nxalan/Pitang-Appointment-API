@@ -14,11 +14,11 @@ export class AddAppointmentController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, birthday, appointmentdDate } = httpRequest.body
+      const { name, birthday, appointment_date } = httpRequest.body
       const appointment = await this.addAppointment.add({
         name,
         birthday,
-        appointmentdDate
+        appointment_date
       })
       if (!appointment) {
         return forbidden(new NameInUseError())

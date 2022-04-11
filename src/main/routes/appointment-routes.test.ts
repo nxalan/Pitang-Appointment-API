@@ -24,7 +24,7 @@ describe('Login Routes', () => {
       const appointment = {
         name: 'any_name',
         birthday: new Date(),
-        appointmentdDate: new Date()
+        appointment_date: new Date()
       }
       const response = await request(app).post('/api/appointment').send(appointment)
       expect(response.status).toBe(200)
