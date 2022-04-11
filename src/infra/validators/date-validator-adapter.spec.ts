@@ -1,6 +1,5 @@
 import { DateValidatorAdapter } from './date-validator-adapter'
 import MockDate from 'mockdate'
-import validator from 'validator'
 
 const makeSut = (): DateValidatorAdapter => {
   return new DateValidatorAdapter()
