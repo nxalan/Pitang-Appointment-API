@@ -1,7 +1,7 @@
 {
   "name": "vaccines-api",
   "version": "1.0.0",
-  "description": "A simple vaccine scheduler",
+  "description": "A simple vaccine appointmentr",
   "main": "index.js",
   "scripts": {
     "test": "npx jest --passWithNoTests --no-cache --runInBand",

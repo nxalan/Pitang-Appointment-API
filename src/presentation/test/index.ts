@@ -1,2 +1,2 @@
 export * from './mock-validation'
-export * from './mock-schedule'
+export * from './mock-appointment'

@@ -2,14 +2,14 @@ import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { LogControllerDecorator } from './log-controller-decorator'
 import { serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
-import { mockScheduleModel } from '@/domain/test'
+import { mockAppointmentModel } from '@/domain/test'
 import { mockLogErrorRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-      return new Promise(resolve => resolve(ok(mockScheduleModel())))
+      return new Promise(resolve => resolve(ok(mockAppointmentModel())))
     }
   }
   return new ControllerStub()
@@ -19,7 +19,7 @@ const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
     birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
-    scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1))
+    appointmentdDate: new Date(new Date().setDate(new Date().getDate() + 1))
   }
 })
 
@@ -64,7 +64,7 @@ describe('LogController Decorator', () => {
   test('Should return the same result of the controller', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok(mockScheduleModel()))
+    expect(httpResponse).toEqual(ok(mockAppointmentModel()))
   })
 
   test('Should call LogErrorRepository with correct error if controller returns a server error', async () => {
