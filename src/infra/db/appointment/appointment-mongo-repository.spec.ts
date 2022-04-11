@@ -37,7 +37,7 @@ describe('Appointment Mongo Repository', () => {
       expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
     })
 
-    describe('LoadByName', () => {
+    describe('LoadByName()', () => {
       test('Should return an appointment on loadByName success', async () => {
         const sut = makeSut()
         await appointmentCollection.insertOne(mockAddAppointmentParams())
@@ -54,6 +54,22 @@ describe('Appointment Mongo Repository', () => {
         const appointment = await sut.loadByName('any_name')
         expect(appointment).toBeFalsy()
       })
+    })
+    describe('LoadById()', () => {
+      test('Should return an appointment on loadById success', async () => {
+        const res = await appointmentCollection.insertOne(mockAddAppointmentParams())
+        const sut = makeSut()
+        const appointment = await sut.loadById(res.ops[0]._id)
+        expect(appointment).toBeTruthy()
+        expect(appointment.id).toBeTruthy()
+      })
+      /* OLHAR ISSO
+        test('Should return null if loadById fails', async () => {
+        const sut = makeSut()
+        const appointment = await sut.loadById('any_id')
+        expect(appointment).toBeFalsy()
+      })
+      */
     })
   })
 })
