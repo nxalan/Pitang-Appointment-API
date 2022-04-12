@@ -1,5 +1,6 @@
 import { mockAppointmentModel } from '@/domain/test'
 import { AddAppointment, AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
+import { EditAppointment, EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { LoadAppointmentById } from '@/domain/usecases/appointment/load-appointment-by-id'
 
@@ -10,6 +11,15 @@ export const mockAddAppointment = (): AddAppointment => {
     }
   }
   return new AddAccountStub()
+}
+
+export const mockEditAppointment = (): EditAppointment => {
+  class EditAccountStub implements EditAppointment {
+    async edit (appointment: EditAppointmentParams): Promise<AppointmentModel> {
+      return new Promise(resolve => resolve(mockAppointmentModel()))
+    }
+  }
+  return new EditAccountStub()
 }
 
 export const mockLoadAppointmentById = (): LoadAppointmentById => {
