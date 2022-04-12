@@ -4,6 +4,9 @@
   "description": "A simple vaccine appointmentr",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "test": "npx jest --passWithNoTests --no-cache --runInBand",
     "test:verbose": "npx jest --passWithNoTests",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
@@ -11,6 +14,11 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "version": "latest"
+    }
   },
   "repository": {
     "type": "git",
@@ -30,12 +38,14 @@
     "@types/supertest": "^2.0.12",
     "git-commit-msg-linter": "^4.1.1",
     "typescript": "^4.6.2",
+    "coveralls": "^3.1.1",
     "eslint": "^7.32.0",
     "eslint-config-standard-with-typescript": "^11.0.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "husky": "^4.0.6",
+    "rimraf": "^3.0.2",
     "lint-staged": "^10.0.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.3",
@@ -46,7 +56,15 @@
     "validator": "^13.7.0",
     "mongodb": "^3.5.1",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "module-alias": "^2.2.2",
+    "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   },
   "bugs": {
     "url": "https://github.com/nxalan/VaccineAPI/issues"
