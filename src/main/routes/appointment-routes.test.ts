@@ -12,7 +12,7 @@ const mockAppointment = async (): Promise<HttpResponse> => {
     birthday: new Date(),
     appointment_date: new Date()
   }
-  const response = await request(app).put('/api/appointment').send(appointment)
+  const response = await request(app).post('/api/appointment').send(appointment)
   return response
 }
 
@@ -31,12 +31,12 @@ describe('Appointment Routes', () => {
   })
 
   describe('POST /appointment', () => {
-    test('Should return 200 on add-appointment without appointment_id', async () => {
+    test('Should return 200 on add-appointment', async () => {
       const response = await mockAppointment()
       expect(response.statusCode).toBe(200)
     })
 
-    test('Should return 200 on add-appointment with appointment_id', async () => {
+    test('Should return 200 on edit-appointment with a valid appointment_id', async () => {
       const storedMockAppointment = await mockAppointment()
       const { id } = storedMockAppointment.body
       const modifiedAppointment = {

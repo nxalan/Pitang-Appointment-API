@@ -4,6 +4,6 @@ import { makeAddAppointmentController } from '@/main/factories/controllers/appoi
 import { makeEditAppointmentController } from '@/main/factories/controllers/appointment/edit-appointment/edit-appointment-controller-factory'
 import { adaptRoute } from '@/main/adapters/express-route-adapter'
 export default (router: Router): void => {
-  router.put('/appointment/:appointment_id?', adaptRoute(makeAddAppointmentController()))
-  router.post('/appointment/:appointment_id?', adaptRoute(makeEditAppointmentController()))
+  router.post('/appointment/', adaptRoute(makeAddAppointmentController()))
+  router.put('/appointment/:appointment_id', adaptRoute(makeEditAppointmentController()))
 }

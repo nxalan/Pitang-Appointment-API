@@ -1,9 +1,9 @@
-import { HttpRequest, AddAppointment, Validation, LoadAppointmentById } from '.'
+import { HttpRequest, AddAppointment, Validation } from '.'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAppointmentController } from './add-appointment-controller'
-import { mockAddAppointment, mockValidation, mockLoadAppointmentById } from '@/presentation/test'
-import { InvalidParamError, MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
-import { mockAppointmentModel, throwError } from '@/domain/test'
+import { mockAddAppointment, mockValidation } from '@/presentation/test'
+import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
+import { mockAppointmentModel } from '@/domain/test'
 import MockDate from 'mockdate'
 
 const mockRequest = (): HttpRequest => ({
@@ -14,37 +14,22 @@ const mockRequest = (): HttpRequest => ({
   }
 })
 
-const mockRequestWithId = (): HttpRequest => ({
-  body: {
-    name: 'any_name',
-    birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
-    appointment_date: new Date(new Date().setDate(new Date().getDate() + 1))
-  },
-  params: {
-    appointment_id: 'any_appointment_id'
-  }
-})
-
 type SutTypes = {
   sut: AddAppointmentController
   addAppointmentStub: AddAppointment
-  loadAppointmentByIdStub: LoadAppointmentById
   validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
   const addAppointmentStub = mockAddAppointment()
-  const loadAppointmentByIdStub = mockLoadAppointmentById()
   const validationStub = mockValidation()
   const sut = new AddAppointmentController(
     addAppointmentStub,
-    loadAppointmentByIdStub,
     validationStub
   )
   return {
     sut,
     addAppointmentStub,
-    loadAppointmentByIdStub,
     validationStub
   }
 }
@@ -56,27 +41,6 @@ describe('Add Appointment Controller', () => {
 
   afterAll(() => {
     MockDate.reset()
-  })
-
-  test('Should call LoadAppointmentById with correct values', async () => {
-    const { sut, loadAppointmentByIdStub } = makeSut()
-    const loadByIdSpy = jest.spyOn(loadAppointmentByIdStub, 'loadById')
-    await sut.handle(mockRequestWithId())
-    expect(loadByIdSpy).toHaveBeenCalledWith('any_appointment_id')
-  })
-
-  test('Should return 403 if LoadAppointmentById returns null', async () => {
-    const { sut, loadAppointmentByIdStub } = makeSut()
-    jest.spyOn(loadAppointmentByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null as any))
-    const httpResponse = await sut.handle(mockRequestWithId())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('appointment_id')))
-  })
-
-  test('Should return 500 if LoadAppointmentById throws', async () => {
-    const { sut, loadAppointmentByIdStub } = makeSut()
-    jest.spyOn(loadAppointmentByIdStub, 'loadById').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle(mockRequestWithId())
-    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should call Add Appointment with correct values', async () => {
@@ -118,12 +82,5 @@ describe('Add Appointment Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
-  })
-
-  test('Should return 403 if AddAppointment returns null', async () => {
-    const { sut, addAppointmentStub } = makeSut()
-    jest.spyOn(addAppointmentStub, 'add').mockReturnValueOnce(Promise.resolve(null as any))
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(forbidden(new NameInUseError()))
   })
 })

@@ -6,8 +6,7 @@ export class DbAddAppointment implements AddAppointment {
   ) { }
 
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
-    const newAppointment = await this.addAppointmentRepository.add(appointmentData.appointment_id ? appointmentData
-      : Object.assign({}, appointmentData, { status: 'NOT VACCINED', status_comment: '' }))
+    const newAppointment = await this.addAppointmentRepository.add(Object.assign({}, appointmentData, { status: 'NOT VACCINED', status_comment: '' }))
     return newAppointment
   }
 }
