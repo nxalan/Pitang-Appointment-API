@@ -24,4 +24,10 @@ describe('DateValidator Adapter', () => {
     const isValid = sut.isValid(new Date())
     expect(isValid).toBe(true)
   })
+
+  test('Should return true if date is not provided', () => {
+    const sut = makeSut()
+    const isValid = sut.isValid(undefined as any)
+    expect(isValid).toBe(true)
+  })
 })

@@ -50,7 +50,7 @@ describe('Appointment Routes', () => {
       expect(response.statusCode).toBe(200)
     })
 
-    test('Should return 200 on edit-appointment with status and status_comment only on the request', async () => {
+    test('Should return 200 on edit-appointment with only status and status_comment on the request body', async () => {
       const storedMockAppointment = await mockAppointment()
       const { id } = storedMockAppointment.body
       const modifiedAppointment = {
