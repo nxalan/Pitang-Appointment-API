@@ -11,8 +11,6 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const editAppointmentRepositoryStub = mockEditAppointmentRepository()
-  const loadAppointmentByNameRepositoryStub = mockLoadAppointmentByNameRepository()
-  jest.spyOn(loadAppointmentByNameRepositoryStub, 'loadByName').mockReturnValue(Promise.resolve(null as any))
   const sut = new DbEditAppointment(editAppointmentRepositoryStub)
   return {
     sut,

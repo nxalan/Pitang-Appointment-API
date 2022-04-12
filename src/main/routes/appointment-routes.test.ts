@@ -60,5 +60,12 @@ describe('Appointment Routes', () => {
       const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
       expect(response.statusCode).toBe(200)
     })
+
+    test('Should return 200 on edit-appointment with blank request', async () => {
+      const storedMockAppointment = await mockAppointment()
+      const { id } = storedMockAppointment.body
+      const response = await request(app).put(`/api/appointment/${id}`).send()
+      expect(response.statusCode).toBe(200)
+    })
   })
 })
