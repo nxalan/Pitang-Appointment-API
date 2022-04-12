@@ -1,10 +1,11 @@
-import { HttpResponse, HttpRequest, Controller, AddAppointment, Validation } from '.'
+import { HttpResponse, HttpRequest, Controller, AddAppointment, Validation, LoadAppointmentById } from '.'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { NameInUseError } from '@/presentation/errors'
+import { InvalidParamError, NameInUseError } from '@/presentation/errors'
 
 export class AddAppointmentController implements Controller {
   constructor (
     private readonly addAppointment: AddAppointment,
+    private readonly loadAppointmentById: LoadAppointmentById,
     private readonly validation: Validation
   ) {}
 
@@ -14,8 +15,16 @@ export class AddAppointmentController implements Controller {
       if (error) {
         return badRequest(error)
       }
+      const appointment_id = httpRequest.params?.appointment_id
+      if (appointment_id) {
+        const storedAppointment = await this.loadAppointmentById.loadById(appointment_id)
+        if (!storedAppointment) {
+          return forbidden(new InvalidParamError('appointment_id'))
+        }
+      }
       const { name, birthday, appointment_date } = httpRequest.body
       const appointment = await this.addAppointment.add({
+        appointment_id,
         name,
         birthday,
         appointment_date
