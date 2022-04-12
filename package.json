@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nxalan/VaccineAPI.git"
+    "url": "git+https://github.com/nxalan/Pitang-Appointment-API.git"
   },
   "keywords": [],
   "author": "Alan Oliveira",
@@ -67,7 +67,7 @@
     "@": "dist"
   },
   "bugs": {
-    "url": "https://github.com/nxalan/VaccineAPI/issues"
+    "url": "https://github.com/nxalan/Pitang-Appointment-API/issues"
   },
-  "homepage": "https://github.com/nxalan/VaccineAPI#readme"
+  "homepage": "https://github.com/nxalan/Pitang-Appointment-API#readme"
 }
