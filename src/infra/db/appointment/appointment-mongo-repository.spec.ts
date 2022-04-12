@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { AppointmentMongoRepository } from './appointment-mongo-repository'
-import { mockAddAppointmentParams } from '@/domain/test'
+import { mockAddAppointmentParams, mockEditAppointmentParams } from '@/domain/test'
 import MockDate from 'mockdate'
 
 let appointmentCollection: Collection
@@ -35,6 +35,23 @@ describe('Appointment Mongo Repository', () => {
       expect(appointment.name).toBe('any_name')
       expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
       expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+    })
+
+    describe('Add', () => {
+      test('Should return an appointment on edit success', async () => {
+        const sut = makeSut()
+        const storedAppointment = await sut.add(mockAddAppointmentParams())
+        let mockedEditAppointmentParams = mockEditAppointmentParams()
+        mockedEditAppointmentParams = { ...mockedEditAppointmentParams, appointment_id: storedAppointment.id }
+        const editedAppointment = await sut.edit(mockedEditAppointmentParams)
+        expect(editedAppointment).toBeTruthy()
+        expect(editedAppointment.id).toBeTruthy()
+        expect(editedAppointment.name).toBe('any_name')
+        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
+        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(editedAppointment.status).toBe('any_status')
+        expect(editedAppointment.status_comment).toBe('any_status_comment')
+      })
     })
 
     describe('LoadByName()', () => {

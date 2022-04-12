@@ -49,5 +49,16 @@ describe('Appointment Routes', () => {
       const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
       expect(response.statusCode).toBe(200)
     })
+
+    test('Should return 200 on edit-appointment with status and status_comment only on the request', async () => {
+      const storedMockAppointment = await mockAppointment()
+      const { id } = storedMockAppointment.body
+      const modifiedAppointment = {
+        status: 'modified_status',
+        status_comment: 'modified_status_comment'
+      }
+      const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
+      expect(response.statusCode).toBe(200)
+    })
   })
 })

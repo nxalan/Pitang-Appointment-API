@@ -103,7 +103,7 @@ describe('Edit Appointment Controller', () => {
     const validatespy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest.params)
   })
 
   test('Should return 400 if Validation returns an error', async () => {
@@ -111,12 +111,5 @@ describe('Edit Appointment Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
-  })
-
-  test('Should return 403 if AddAppointment returns null', async () => {
-    const { sut, editAppointmentStub } = makeSut()
-    jest.spyOn(editAppointmentStub, 'edit').mockReturnValueOnce(Promise.resolve(null as any))
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(forbidden(new NameInUseError()))
   })
 })

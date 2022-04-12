@@ -1,6 +1,6 @@
 import { EditAppointmentRepository } from '.'
 import { DbEditAppointment } from './db-edit-appointment'
-import { mockEditAppointmentParams, mockAppointmentModel, throwError, mockEditAppointmentWithIdParams } from '@/domain/test'
+import { mockEditAppointmentParams, mockAppointmentModel, throwError } from '@/domain/test'
 import { mockEditAppointmentRepository, mockLoadAppointmentByNameRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
@@ -28,10 +28,10 @@ describe('DbEditAppointment Usecase', () => {
   afterAll(() => {
     MockDate.reset()
   })
-  test('Should call EditAppointmentRepository with correct values when id is provided', async () => {
+  test('Should call EditAppointmentRepository with correct values when a valid id is provided', async () => {
     const { sut, editAppointmentRepositoryStub } = makeSut()
     const EditSpy = jest.spyOn(editAppointmentRepositoryStub, 'edit')
-    await sut.edit(mockEditAppointmentWithIdParams())
+    await sut.edit(mockEditAppointmentParams())
     expect(EditSpy).toHaveBeenCalledWith({
       appointment_id: 'any_id',
       name: 'any_name',
