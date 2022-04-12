@@ -4,6 +4,6 @@ export class DateValidatorAdapter implements DateValidator {
     if (typeof date === 'undefined') {
       return true
     }
-    return !isNaN(new Date(date).getDate()) || (typeof date === 'undefined')
+    return !isNaN(new Date(date).getDate())
   }
 }
