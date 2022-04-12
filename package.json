@@ -1,7 +1,7 @@
 {
   "name": "vaccines-api",
-  "version": "1.1.0",
-  "description": "A simple vaccine appointmentr",
+  "version": "1.0.0",
+  "description": "A simple vaccine appointment",
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
