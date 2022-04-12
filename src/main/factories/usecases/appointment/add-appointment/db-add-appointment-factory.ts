@@ -4,5 +4,5 @@ import { DbAddAppointment } from '@/data/usecases/appointment/add-appointment/db
 
 export const makeDbAddAppointment = (): AddAppointment => {
   const appointmentMongoRepository = new AppointmentMongoRepository()
-  return new DbAddAppointment(appointmentMongoRepository, appointmentMongoRepository)
+  return new DbAddAppointment(appointmentMongoRepository)
 }

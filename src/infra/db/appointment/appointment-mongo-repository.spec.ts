@@ -63,13 +63,6 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment).toBeTruthy()
         expect(appointment.id).toBeTruthy()
       })
-      /* OLHAR ISSO
-        test('Should return null if loadById fails', async () => {
-        const sut = makeSut()
-        const appointment = await sut.loadById('any_id')
-        expect(appointment).toBeFalsy()
-      })
-      */
     })
   })
 })
