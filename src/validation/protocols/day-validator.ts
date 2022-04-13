@@ -1,3 +1,3 @@
 export interface DayValidator {
-  isValid(date: Date): boolean
+  isValid(date: Date): Promise<boolean>
 }

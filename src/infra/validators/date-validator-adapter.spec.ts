@@ -13,21 +13,21 @@ describe('DateValidator Adapter', () => {
   afterAll(() => {
     MockDate.reset()
   })
-  test('Should return false if validator returns false', () => {
+  test('Should return false if validator returns false', async () => {
     const sut = makeSut()
-    const isValid = sut.isValid(new Date('invalid_data'))
+    const isValid = await sut.isValid(new Date('invalid_data'))
     expect(isValid).toBe(false)
   })
 
-  test('Should return true if validator returns true', () => {
+  test('Should return true if validator returns true', async () => {
     const sut = makeSut()
-    const isValid = sut.isValid(new Date())
+    const isValid = await sut.isValid(new Date())
     expect(isValid).toBe(true)
   })
 
-  test('Should return true if date is not provided', () => {
+  test('Should return true if date is not provided', async () => {
     const sut = makeSut()
-    const isValid = sut.isValid(undefined as any)
+    const isValid = await sut.isValid(undefined as any)
     expect(isValid).toBe(true)
   })
 })

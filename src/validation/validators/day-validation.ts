@@ -8,8 +8,8 @@ export class DayValidation implements Validation {
     private readonly dayValidator: DayValidator
   ) {}
 
-  validate (input: any): Error | undefined {
-    const isValid = this.dayValidator.isValid(input[this.fieldName])
+  async validate (input: any): Promise<Error | undefined> {
+    const isValid = await this.dayValidator.isValid(input[this.fieldName])
     if (!isValid) {
       return new InvalidParamError(this.fieldName)
     }

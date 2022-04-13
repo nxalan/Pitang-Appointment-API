@@ -108,7 +108,7 @@ describe('Edit Appointment Controller', () => {
 
   test('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any field')))
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
   })

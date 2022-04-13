@@ -27,25 +27,17 @@ describe('Day Hour Validation', () => {
     MockDate.reset()
   })
 
-  test('Should return an error if DayValidator returns false', () => {
+  test('Should return an error if DayValidator returns false', async () => {
     const { sut, dayValidatorStub } = makeSut()
-    jest.spyOn(dayValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const error = sut.validate({ date: new Date() })
+    jest.spyOn(dayValidatorStub, 'isValid').mockReturnValueOnce(Promise.resolve(false))
+    const error = await sut.validate({ date: new Date() })
     expect(error).toEqual(new InvalidParamError('date'))
   })
 
-  test('Should call DayValidator with correct date', () => {
+  test('Should call DayValidator with correct date', async () => {
     const { sut, dayValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(dayValidatorStub, 'isValid')
-    sut.validate({ date: new Date() })
+    await sut.validate({ date: new Date() })
     expect(isValidSpy).toHaveBeenCalledWith(new Date())
-  })
-
-  test('Should throw if DayValidator throws', () => {
-    const { sut, dayValidatorStub } = makeSut()
-    jest.spyOn(dayValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-    expect(sut.validate).toThrow()
   })
 })

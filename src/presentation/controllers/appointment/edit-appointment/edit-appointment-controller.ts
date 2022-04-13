@@ -16,7 +16,7 @@ export class EditAppointmentController implements Controller {
       if (!storedAppointment) {
         return forbidden(new InvalidParamError('id'))
       }
-      const error = this.validation.validate(httpRequest.body)
+      const error = await this.validation.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }

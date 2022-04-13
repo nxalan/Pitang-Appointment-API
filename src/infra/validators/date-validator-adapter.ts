@@ -1,9 +1,9 @@
 import { DateValidator } from '@/validation/protocols/date-validator'
 export class DateValidatorAdapter implements DateValidator {
-  isValid (date: Date): boolean {
+  async isValid (date: Date): Promise<boolean> {
     if (typeof date === 'undefined') {
-      return true
+      return Promise.resolve(true)
     }
-    return !isNaN(new Date(date).getDate())
+    return Promise.resolve(!isNaN(new Date(date).getDate()))
   }
 }

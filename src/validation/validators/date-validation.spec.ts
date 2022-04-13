@@ -3,6 +3,7 @@ import { DateValidator } from '@/validation/protocols/date-validator'
 import { InvalidParamError } from '@/presentation/errors'
 import { mockDateValidator } from '@/validation/test'
 import MockDate from 'mockdate'
+import { serverError } from '@/presentation/helpers/http/http-helper'
 
 type SutTypes = {
   sut: DateValidation
@@ -27,26 +28,18 @@ describe('Date Validation', () => {
     MockDate.reset()
   })
 
-  test('Should return an error if DateValidator returns false', () => {
+  test('Should return an error if DateValidator returns false', async () => {
     const { sut, dateValidatorStub } = makeSut()
-    jest.spyOn(dateValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const error = sut.validate({ date: new Date() })
+    jest.spyOn(dateValidatorStub, 'isValid').mockReturnValueOnce(Promise.resolve(false))
+    const error = await sut.validate({ date: new Date() })
     expect(error).toEqual(new InvalidParamError('date'))
   })
 
-  test('Should call DateValidator with correct date', () => {
+  test('Should call DateValidator with correct date', async () => {
     const { sut, dateValidatorStub } = makeSut()
     const actualDate = new Date()
     const isValidSpy = jest.spyOn(dateValidatorStub, 'isValid')
-    sut.validate({ date: actualDate })
-    expect(isValidSpy).toHaveBeenCalledWith(new Date())
-  })
-
-  test('Should throw if DateValidator throws', () => {
-    const { sut, dateValidatorStub } = makeSut()
-    jest.spyOn(dateValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-    expect(sut.validate).toThrow()
+    await sut.validate({ date: actualDate })
+    expect(isValidSpy).toHaveBeenCalledWith(actualDate)
   })
 })

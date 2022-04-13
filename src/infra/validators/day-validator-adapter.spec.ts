@@ -27,17 +27,14 @@ describe('DayValidator Adapter', () => {
     await appointmentCollection.deleteMany({})
   })
 
-  test('Should return false if there is 20 or more appointment in the same day', () => {
-    expect(true).toBe(true)
-    /*
+  test('Should return false if there is 20 or more appointment in the same day', async () => {
     const sut = makeSut()
     let listOf20Appointments = new Array(20).fill(mockAddAppointmentParams())
     listOf20Appointments = listOf20Appointments.map((cb) => ({ ...cb, name: 'teste' }))
     listOf20Appointments.forEach((eachAppointment) => { eachAppointment.name = randomUUID().substring(0, 5) })
     await appointmentCollection.insertMany(listOf20Appointments)
-    const isValid = sut.isValid(new Date(new Date().setDate(new Date().getDate() + 1)))
+    const isValid = await sut.isValid(new Date(new Date().setDate(new Date().getDate() + 1)))
     expect(isValid).toBe(false)
-    */
   })
 
   /*
