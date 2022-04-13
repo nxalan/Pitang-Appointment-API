@@ -37,13 +37,12 @@ describe('Appointment Mongo Repository', () => {
       expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
     })
 
-    describe('Add', () => {
+    describe('Edit', () => {
       test('Should return an appointment on edit success', async () => {
         const sut = makeSut()
         const storedAppointment = await sut.add(mockAddAppointmentParams())
-        let mockedEditAppointmentParams = mockEditAppointmentParams()
-        mockedEditAppointmentParams = { ...mockedEditAppointmentParams, id: storedAppointment.id }
-        const editedAppointment = await sut.edit(mockedEditAppointmentParams)
+        const mockedEditAppointmentParamsWithValidId = { ...mockEditAppointmentParams(), id: storedAppointment.id }
+        const editedAppointment = await sut.edit(mockedEditAppointmentParamsWithValidId)
         expect(editedAppointment).toBeTruthy()
         expect(editedAppointment.id).toBeTruthy()
         expect(editedAppointment.name).toBe('any_name')
@@ -51,6 +50,17 @@ describe('Appointment Mongo Repository', () => {
         expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
         expect(editedAppointment.status).toBe('any_status')
         expect(editedAppointment.status_comment).toBe('any_status_comment')
+      })
+
+      test('Should return an appointment on edit success with an empty body', async () => {
+        const sut = makeSut()
+        const storedAppointment = await sut.add(mockAddAppointmentParams())
+        const editedAppointment = await sut.edit({ id: storedAppointment.id })
+        expect(editedAppointment).toBeTruthy()
+        expect(editedAppointment.id).toBeTruthy()
+        expect(editedAppointment.name).toBe('any_name')
+        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
+        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
       })
     })
 
