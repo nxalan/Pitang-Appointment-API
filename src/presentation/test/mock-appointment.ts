@@ -5,21 +5,21 @@ import { AppointmentModel } from '@/domain/models/appointment'
 import { LoadAppointmentById } from '@/domain/usecases/appointment/load-appointment-by-id'
 
 export const mockAddAppointment = (): AddAppointment => {
-  class AddAccountStub implements AddAppointment {
+  class AddAppointmentStub implements AddAppointment {
     async add (appointment: AddAppointmentParams): Promise<AppointmentModel> {
       return new Promise(resolve => resolve(mockAppointmentModel()))
     }
   }
-  return new AddAccountStub()
+  return new AddAppointmentStub()
 }
 
 export const mockEditAppointment = (): EditAppointment => {
-  class EditAccountStub implements EditAppointment {
+  class EditAppointmentStub implements EditAppointment {
     async edit (appointment: EditAppointmentParams): Promise<AppointmentModel> {
       return new Promise(resolve => resolve(mockAppointmentModel()))
     }
   }
-  return new EditAccountStub()
+  return new EditAppointmentStub()
 }
 
 export const mockLoadAppointmentById = (): LoadAppointmentById => {

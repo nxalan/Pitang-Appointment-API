@@ -1,14 +1,14 @@
-import { AddAppointmentRepository, LoadAppointmentByNameRepository } from '@/data/protocols/db/appointment'
+import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository } from '@/data/protocols/db/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 
-export class AppointmentMongoRepository implements AddAppointmentRepository, LoadAppointmentByNameRepository {
+export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository {
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
-    const accountCollection = await MongoHelper.getCollection('appointments')
-    const result = await accountCollection.insertOne(appointmentData)
+    const appointmentCollection = await MongoHelper.getCollection('appointments')
+    const result = await appointmentCollection.insertOne(appointmentData)
     return MongoHelper.map(result.ops[0])
   }
 
