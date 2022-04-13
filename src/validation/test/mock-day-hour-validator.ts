@@ -1,10 +1,10 @@
-import { DayHourValidator } from '@/validation/protocols/day-hour-validator'
+import { DayValidator } from '@/validation/protocols/day-validator'
 
-export const mockDayHourValidator = (): DayHourValidator => {
-  class DayHourValidatorStub implements DayHourValidator {
+export const mockDayValidator = (): DayValidator => {
+  class DayValidatorStub implements DayValidator {
     isValid (date: Date): boolean {
       return true
     }
   }
-  return new DayHourValidatorStub()
+  return new DayValidatorStub()
 }
