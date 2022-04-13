@@ -5,5 +5,5 @@ import { makeEditAppointmentController } from '@/main/factories/controllers/appo
 import { adaptRoute } from '@/main/adapters/express-route-adapter'
 export default (router: Router): void => {
   router.post('/appointment/', adaptRoute(makeAddAppointmentController()))
-  router.put('/appointment/:appointment_id', adaptRoute(makeEditAppointmentController()))
+  router.put('/appointment/:id', adaptRoute(makeEditAppointmentController()))
 }

@@ -13,16 +13,21 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Loa
   }
 
   async edit (appointmentData: EditAppointmentParams): Promise<AppointmentModel> {
-    const { appointment_id, ...AppointmentDataWithoutId } = appointmentData
-    const appointmentCollection = await MongoHelper.getCollection('appointments')
-    const result = await appointmentCollection.findOneAndUpdate({
-      _id: new ObjectId(appointment_id)
-    }, {
-      $set: AppointmentDataWithoutId
-    }, {
-      returnDocument: 'after'
-    })
-    return result.value && MongoHelper.map(result.value)
+    const appointmentDataDb = MongoHelper.unmap(appointmentData)
+    const requestIsEmpty = Object.keys(appointmentDataDb).length === 0
+    if (requestIsEmpty) {
+      return this.loadById(appointmentData.id)
+    } else {
+      const appointmentCollection = await MongoHelper.getCollection('appointments')
+      const result = await appointmentCollection.findOneAndUpdate({
+        _id: new ObjectId(appointmentData.id)
+      }, {
+        $set: appointmentDataDb
+      }, {
+        returnDocument: 'after'
+      })
+      return result.value && MongoHelper.map(result.value)
+    }
   }
 
   async loadByName (name: string): Promise<AppointmentModel> {

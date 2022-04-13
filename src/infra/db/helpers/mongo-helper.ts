@@ -31,6 +31,12 @@ export const MongoHelper = {
 
   mapCollection: (collection: any[]): any[] => {
     return collection.map(c => MongoHelper.map(c))
+  },
+
+  unmap: (data: any): any => {
+    const { id, ...collectionWithoutId } = data
+    Object.keys(collectionWithoutId).forEach(key => collectionWithoutId[key] === undefined ? delete collectionWithoutId[key] : {})
+    return collectionWithoutId
   }
 
 }

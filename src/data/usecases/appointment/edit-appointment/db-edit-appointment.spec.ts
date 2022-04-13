@@ -31,7 +31,7 @@ describe('DbEditAppointment Usecase', () => {
     const EditSpy = jest.spyOn(editAppointmentRepositoryStub, 'edit')
     await sut.edit(mockEditAppointmentParams())
     expect(EditSpy).toHaveBeenCalledWith({
-      appointment_id: 'any_id',
+      id: 'any_id',
       name: 'any_name',
       birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
       appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)),

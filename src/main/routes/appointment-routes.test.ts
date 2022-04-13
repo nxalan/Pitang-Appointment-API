@@ -36,7 +36,7 @@ describe('Appointment Routes', () => {
       expect(response.statusCode).toBe(200)
     })
 
-    test('Should return 200 on edit-appointment with a valid appointment_id', async () => {
+    test('Should return 200 on edit-appointment with a valid id', async () => {
       const storedMockAppointment = await mockAppointment()
       const { id } = storedMockAppointment.body
       const modifiedAppointment = {
@@ -61,7 +61,7 @@ describe('Appointment Routes', () => {
       expect(response.statusCode).toBe(200)
     })
 
-    test('Should return 200 on edit-appointment with blank request', async () => {
+    test('Should return 200 on edit-appointment with request with no body', async () => {
       const storedMockAppointment = await mockAppointment()
       const { id } = storedMockAppointment.body
       const response = await request(app).put(`/api/appointment/${id}`).send()

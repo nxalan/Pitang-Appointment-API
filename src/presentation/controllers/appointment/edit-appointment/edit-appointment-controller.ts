@@ -11,10 +11,10 @@ export class EditAppointmentController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const appointment_id = httpRequest.params.appointment_id
-      const storedAppointment = await this.loadAppointmentById.loadById(appointment_id)
+      const id = httpRequest.params.id
+      const storedAppointment = await this.loadAppointmentById.loadById(id)
       if (!storedAppointment) {
-        return forbidden(new InvalidParamError('appointment_id'))
+        return forbidden(new InvalidParamError('id'))
       }
       const error = this.validation.validate(httpRequest.body)
       if (error) {
@@ -26,7 +26,7 @@ export class EditAppointmentController implements Controller {
       const status = httpRequest.body?.status
       const status_comment = httpRequest.body?.status_comment
       const appointment = await this.editAppointment.edit({
-        appointment_id,
+        id,
         name,
         birthday,
         appointment_date,

@@ -42,7 +42,7 @@ describe('Appointment Mongo Repository', () => {
         const sut = makeSut()
         const storedAppointment = await sut.add(mockAddAppointmentParams())
         let mockedEditAppointmentParams = mockEditAppointmentParams()
-        mockedEditAppointmentParams = { ...mockedEditAppointmentParams, appointment_id: storedAppointment.id }
+        mockedEditAppointmentParams = { ...mockedEditAppointmentParams, id: storedAppointment.id }
         const editedAppointment = await sut.edit(mockedEditAppointmentParams)
         expect(editedAppointment).toBeTruthy()
         expect(editedAppointment.id).toBeTruthy()
