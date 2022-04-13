@@ -1,15 +1,15 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { DayValidator } from '@/validation/protocols/day-validator'
+import { DayHourValidator } from '@/validation/protocols/day-hour-validator'
 import { Validation } from '@/presentation/protocols/validation'
 
-export class DateValidation implements Validation {
+export class DayHourValidation implements Validation {
   constructor (
     private readonly fieldName: string,
-    private readonly dayValidator: DayValidator
+    private readonly dayHourValidator: DayHourValidator
   ) {}
 
   validate (input: any): Error | undefined {
-    const isValid = this.dayValidator.isValid(input[this.fieldName])
+    const isValid = this.dayHourValidator.isValid(input[this.fieldName])
     if (!isValid) {
       return new InvalidParamError(this.fieldName)
     }
