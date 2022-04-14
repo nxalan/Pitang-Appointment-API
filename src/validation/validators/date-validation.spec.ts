@@ -3,7 +3,6 @@ import { DateValidator } from '@/validation/protocols/date-validator'
 import { InvalidParamError } from '@/presentation/errors'
 import { mockDateValidator } from '@/validation/test'
 import MockDate from 'mockdate'
-import { serverError } from '@/presentation/helpers/http/http-helper'
 
 type SutTypes = {
   sut: DateValidation

@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { AppointmentMongoRepository } from './appointment-mongo-repository'
-import { mockAddAppointmentParams, mockEditAppointmentParams } from '@/domain/test'
+import { mockAddAppointmentParams, mockEditAppointmentParams, mockListOfEditAppointmentParams } from '@/domain/test'
 import MockDate from 'mockdate'
 
 let appointmentCollection: Collection
@@ -64,7 +64,7 @@ describe('Appointment Mongo Repository', () => {
       })
     })
 
-    describe('LoadByName()', () => {
+    describe('LoadByName', () => {
       test('Should return an appointment on loadByName success', async () => {
         const sut = makeSut()
         await appointmentCollection.insertOne(mockAddAppointmentParams())
@@ -82,13 +82,27 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment).toBeFalsy()
       })
     })
-    describe('LoadById()', () => {
+    describe('LoadById', () => {
       test('Should return an appointment on loadById success', async () => {
         const res = await appointmentCollection.insertOne(mockAddAppointmentParams())
         const sut = makeSut()
         const appointment = await sut.loadById(res.ops[0]._id)
         expect(appointment).toBeTruthy()
         expect(appointment.id).toBeTruthy()
+      })
+    })
+    describe('loadAppointmentsByDay', () => {
+      test('Should return an list of appointment with the same appointment_date day on success', async () => {
+        await appointmentCollection.insertMany(mockListOfEditAppointmentParams(20))
+        const sut = makeSut()
+        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(appointment.length).toBe(20)
+      })
+
+      test('Should return an empty list if there is no matching day', async () => {
+        const sut = makeSut()
+        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(appointment.length).toBe(0)
       })
     })
   })

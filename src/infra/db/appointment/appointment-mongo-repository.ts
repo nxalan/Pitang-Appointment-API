@@ -1,11 +1,12 @@
-import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository } from '@/data/protocols/db/appointment'
+import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository, LoadAppointmentsByDayRepository } from '@/data/protocols/db/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
+import { endOfDay, startOfDay } from 'date-fns'
 
-export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository {
+export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository {
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const result = await appointmentCollection.insertOne(appointmentData)
@@ -40,5 +41,11 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const appointment = await appointmentCollection.findOne({ _id: new ObjectId(id) })
     return appointment && MongoHelper.map(appointment)
+  }
+
+  async loadByDay (date: Date): Promise<AppointmentModel[]> {
+    const appointmentCollection = await MongoHelper.getCollection('appointments')
+    const appointmentsList = await appointmentCollection.find({ appointment_date: { $gte: startOfDay(new Date(date)), $lte: endOfDay((new Date(date))) } }).toArray()
+    return appointmentsList && MongoHelper.mapCollection(appointmentsList)
   }
 }

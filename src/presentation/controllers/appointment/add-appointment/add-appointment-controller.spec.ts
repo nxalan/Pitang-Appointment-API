@@ -1,5 +1,5 @@
 import { HttpRequest, AddAppointment, Validation } from '.'
-import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAppointmentController } from './add-appointment-controller'
 import { mockAddAppointment, mockValidation } from '@/presentation/test'
 import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'

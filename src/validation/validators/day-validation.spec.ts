@@ -1,20 +1,21 @@
 import { DayValidation } from './day-validation'
-import { DayValidator } from '@/validation/protocols/day-validator'
+import { LoadAppointmentsByDay } from '@/domain/usecases/appointment/load-appointments-by-day'
 import { InvalidParamError } from '@/presentation/errors'
-import { mockDayValidator } from '@/validation/test'
+import { mockLoadAppointmentsByDay } from '@/validation/test'
 import MockDate from 'mockdate'
+import { mockListOfEditAppointmentParams } from '@/domain/test'
 
 type SutTypes = {
   sut: DayValidation
-  dayValidatorStub: DayValidator
+  loadAppointmentsByDayStub: LoadAppointmentsByDay
 }
 
 const makeSut = (): SutTypes => {
-  const dayValidatorStub = mockDayValidator()
-  const sut = new DayValidation('date', dayValidatorStub)
+  const loadAppointmentsByDayStub = mockLoadAppointmentsByDay()
+  const sut = new DayValidation('appointment_date', loadAppointmentsByDayStub)
   return {
     sut,
-    dayValidatorStub
+    loadAppointmentsByDayStub
   }
 }
 
@@ -27,17 +28,23 @@ describe('Day Hour Validation', () => {
     MockDate.reset()
   })
 
-  test('Should return an error if DayValidator returns false', async () => {
-    const { sut, dayValidatorStub } = makeSut()
-    jest.spyOn(dayValidatorStub, 'isValid').mockReturnValueOnce(Promise.resolve(false))
-    const error = await sut.validate({ date: new Date() })
-    expect(error).toEqual(new InvalidParamError('date'))
+  test('Should return if date is not defined', async () => {
+    const { sut } = makeSut()
+    const response = await sut.validate({ appointment_date: undefined })
+    expect(response).toBeFalsy()
   })
 
-  test('Should call DayValidator with correct date', async () => {
-    const { sut, dayValidatorStub } = makeSut()
-    const isValidSpy = jest.spyOn(dayValidatorStub, 'isValid')
-    await sut.validate({ date: new Date() })
-    expect(isValidSpy).toHaveBeenCalledWith(new Date())
+  test('Should return an error if DayValidator returns false', async () => {
+    const { sut, loadAppointmentsByDayStub } = makeSut()
+    jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParams(20)))
+    const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
+    expect(response).toEqual(new InvalidParamError('appointment_date'))
+  })
+
+  test('Should return if date is a valid day', async () => {
+    const { sut, loadAppointmentsByDayStub } = makeSut()
+    jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParams(19)))
+    const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
+    expect(response).toBeFalsy()
   })
 })
