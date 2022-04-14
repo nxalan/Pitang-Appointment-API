@@ -1,4 +1,4 @@
-import { mockAppointmentModel, mockListOfEditAppointmentParams } from '@/domain/test'
+import { mockAppointmentModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
 import { AddAppointmentRepository, EditAppointmentRepository } from '@/data/protocols/db/appointment'
 import { AppointmentModel, AddAppointmentParams, LoadAppointmentByNameRepository } from '@/data/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointment'
@@ -45,7 +45,7 @@ export const mockLoadAppointmentByIdRepository = (): LoadAppointmentByIdReposito
 export const mockLoadAppointmentsByDayRepository = (): LoadAppointmentsByDayRepository => {
   class LoadAppointmentsByDayRepositoryStub implements LoadAppointmentsByDayRepository {
     async loadByDay (date: string): Promise<AppointmentModel[]> {
-      return new Promise(resolve => resolve(mockListOfEditAppointmentParams(20)))
+      return new Promise(resolve => resolve(mockListOfEditAppointmentParamsWithDifferentHours(20)))
     }
   }
   return new LoadAppointmentsByDayRepositoryStub()
@@ -54,7 +54,7 @@ export const mockLoadAppointmentsByDayRepository = (): LoadAppointmentsByDayRepo
 export const mockLoadAppointmentsByHourRepository = (): LoadAppointmentsByHourRepository => {
   class LoadAppointmentsByHourRepositoryStub implements LoadAppointmentsByHourRepository {
     async loadByHour (date: string): Promise<AppointmentModel[]> {
-      return new Promise(resolve => resolve(mockListOfEditAppointmentParams(2)))
+      return new Promise(resolve => resolve(mockListOfEditAppointmentParamsWithSameHours(2)))
     }
   }
   return new LoadAppointmentsByHourRepositoryStub()
