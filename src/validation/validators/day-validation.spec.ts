@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('Day Hour Validation', () => {
+describe('Day Validation', () => {
   beforeAll(() => {
     MockDate.set(new Date())
   })

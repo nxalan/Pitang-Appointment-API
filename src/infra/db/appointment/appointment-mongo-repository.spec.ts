@@ -105,5 +105,19 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment.length).toBe(0)
       })
     })
+    describe('loadAppointmentsByHour', () => {
+      test('Should return an list of appointment with the same appointment_date hour on success', async () => {
+        await appointmentCollection.insertMany(mockListOfEditAppointmentParams(2))
+        const sut = makeSut()
+        const appointment = await sut.loadByHour(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
+        expect(appointment.length).toBe(2)
+      })
+
+      test('Should return an empty list if there is no matching hour', async () => {
+        const sut = makeSut()
+        const appointment = await sut.loadByHour(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
+        expect(appointment.length).toBe(0)
+      })
+    })
   })
 })
