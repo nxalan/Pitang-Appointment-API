@@ -38,7 +38,7 @@ describe('Day Hour Validation', () => {
     const { sut, loadAppointmentsByDayStub } = makeSut()
     jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParams(20)))
     const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
-    expect(response).toEqual(new InvalidParamError('appointment_date'))
+    expect(response).toEqual(new InvalidParamError('appointment_date, the chosen day is already full'))
   })
 
   test('Should return if date is a valid day', async () => {

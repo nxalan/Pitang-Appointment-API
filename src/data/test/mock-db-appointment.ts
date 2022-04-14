@@ -43,7 +43,7 @@ export const mockLoadAppointmentByIdRepository = (): LoadAppointmentByIdReposito
 
 export const mockLoadAppointmentsByDayRepository = (): LoadAppointmentsByDayRepository => {
   class LoadAppointmentsByDayRepositoryStub implements LoadAppointmentsByDayRepository {
-    async loadByDay (date: Date): Promise<AppointmentModel[]> {
+    async loadByDay (date: string): Promise<AppointmentModel[]> {
       return new Promise(resolve => resolve(mockListOfEditAppointmentParams(20)))
     }
   }

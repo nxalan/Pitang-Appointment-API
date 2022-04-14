@@ -1,17 +1,21 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { DateValidator } from '@/validation/protocols/date-validator'
 import { Validation } from '@/presentation/protocols/validation'
 
 export class DateValidation implements Validation {
   constructor (
-    private readonly fieldName: string,
-    private readonly dateValidator: DateValidator
+    private readonly fieldName: string
   ) { }
 
   async validate (input: any): Promise<Error | undefined> {
-    const isValid = await this.dateValidator.isValid(input[this.fieldName])
+    if (typeof input[this.fieldName] === 'undefined') {
+      return Promise.resolve(undefined)
+    }
+    let isValid = true
+    if (isNaN(new Date(input[this.fieldName]).getDate())) {
+      isValid = false
+    }
     if (!isValid) {
-      return new InvalidParamError(this.fieldName)
+      return Promise.resolve(new InvalidParamError(this.fieldName))
     }
   }
 }

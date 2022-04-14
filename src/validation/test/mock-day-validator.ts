@@ -4,7 +4,7 @@ import { LoadAppointmentsByDay } from '@/domain/usecases/appointment/load-appoin
 
 export const mockLoadAppointmentsByDay = (): LoadAppointmentsByDay => {
   class LoadAppointmentsByDayStub implements LoadAppointmentsByDay {
-    async loadByDay (date: Date): Promise<AppointmentModel[]> {
+    async loadByDay (date: string): Promise<AppointmentModel[]> {
       return Promise.resolve(mockListOfEditAppointmentParams(20))
     }
   }

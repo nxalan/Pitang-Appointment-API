@@ -1,5 +1,5 @@
 import { AppointmentModel } from '@/domain/models/appointment'
 
 export interface LoadAppointmentsByDayRepository {
-  loadByDay (date: Date): Promise<AppointmentModel[]>
+  loadByDay (date: string): Promise<AppointmentModel[]>
 }

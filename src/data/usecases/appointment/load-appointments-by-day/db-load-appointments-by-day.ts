@@ -3,7 +3,7 @@ import { AppointmentModel, LoadAppointmentsByDay, LoadAppointmentsByDayRepositor
 export class DbLoadAppointmentsByDay implements LoadAppointmentsByDay {
   constructor (private readonly loadAppointmentByIdRepository: LoadAppointmentsByDayRepository) {}
 
-  async loadByDay (date: Date): Promise<AppointmentModel[]> {
+  async loadByDay (date: string): Promise<AppointmentModel[]> {
     const appointment = await this.loadAppointmentByIdRepository.loadByDay(date)
     return appointment
   }

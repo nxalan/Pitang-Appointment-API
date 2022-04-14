@@ -43,9 +43,10 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     return appointment && MongoHelper.map(appointment)
   }
 
-  async loadByDay (date: Date): Promise<AppointmentModel[]> {
+  async loadByDay (date: string): Promise<AppointmentModel[]> {
     const appointmentCollection = await MongoHelper.getCollection('appointments')
-    const appointmentsList = await appointmentCollection.find({ appointment_date: { $gte: startOfDay(new Date(date)), $lte: endOfDay((new Date(date))) } }).toArray()
+    const appointmentsList = await appointmentCollection.find(
+      { appointment_date: { $gte: startOfDay(new Date(date)).toISOString(), $lte: endOfDay(new Date(date)).toISOString() } }).toArray()
     return appointmentsList && MongoHelper.mapCollection(appointmentsList)
   }
 }

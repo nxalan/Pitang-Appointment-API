@@ -1,20 +1,15 @@
 import { DateValidation } from './date-validation'
-import { DateValidator } from '@/validation/protocols/date-validator'
 import { InvalidParamError } from '@/presentation/errors'
-import { mockDateValidator } from '@/validation/test'
 import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DateValidation
-  dateValidatorStub: DateValidator
 }
 
 const makeSut = (): SutTypes => {
-  const dateValidatorStub = mockDateValidator()
-  const sut = new DateValidation('date', dateValidatorStub)
+  const sut = new DateValidation('date')
   return {
-    sut,
-    dateValidatorStub
+    sut
   }
 }
 
@@ -27,18 +22,21 @@ describe('Date Validation', () => {
     MockDate.reset()
   })
 
-  test('Should return an error if DateValidator returns false', async () => {
-    const { sut, dateValidatorStub } = makeSut()
-    jest.spyOn(dateValidatorStub, 'isValid').mockReturnValueOnce(Promise.resolve(false))
-    const error = await sut.validate({ date: new Date() })
-    expect(error).toEqual(new InvalidParamError('date'))
+  test('Should return if date is not defined', async () => {
+    const { sut } = makeSut()
+    const response = await sut.validate({ date: undefined })
+    expect(response).toBeFalsy()
   })
 
-  test('Should call DateValidator with correct date', async () => {
-    const { sut, dateValidatorStub } = makeSut()
-    const actualDate = new Date()
-    const isValidSpy = jest.spyOn(dateValidatorStub, 'isValid')
-    await sut.validate({ date: actualDate })
-    expect(isValidSpy).toHaveBeenCalledWith(actualDate)
+  test('Should return an error if DateValidator returns false', async () => {
+    const { sut } = makeSut()
+    const response = await sut.validate({ date: 'invalid data' })
+    expect(response).toEqual(new InvalidParamError('date'))
+  })
+
+  test('Should return if date is a valid day', async () => {
+    const { sut } = makeSut()
+    const response = await sut.validate({ date: new Date() })
+    expect(response).toBeFalsy()
   })
 })

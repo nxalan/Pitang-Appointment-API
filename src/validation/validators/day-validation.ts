@@ -12,12 +12,12 @@ export class DayValidation implements Validation {
       return undefined
     }
     let isValid = true
-    const daysList = await this.loadAppointmentsByDay.loadByDay(new Date(input[this.fieldName]))
+    const daysList = await this.loadAppointmentsByDay.loadByDay(input[this.fieldName])
     if (daysList.length >= 20) {
       isValid = false
     }
     if (!isValid) {
-      return new InvalidParamError(`${this.fieldName}`)
+      return new InvalidParamError(`${this.fieldName}, the chosen day is already full`)
     }
   }
 }

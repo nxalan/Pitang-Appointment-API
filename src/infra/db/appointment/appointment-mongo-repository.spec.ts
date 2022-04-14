@@ -33,8 +33,8 @@ describe('Appointment Mongo Repository', () => {
       expect(appointment).toBeTruthy()
       expect(appointment.id).toBeTruthy()
       expect(appointment.name).toBe('any_name')
-      expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-      expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+      expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString())
+      expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
     })
 
     describe('Edit', () => {
@@ -46,8 +46,8 @@ describe('Appointment Mongo Repository', () => {
         expect(editedAppointment).toBeTruthy()
         expect(editedAppointment.id).toBeTruthy()
         expect(editedAppointment.name).toBe('any_name')
-        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString())
+        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
         expect(editedAppointment.status).toBe('any_status')
         expect(editedAppointment.status_comment).toBe('any_status_comment')
       })
@@ -59,8 +59,8 @@ describe('Appointment Mongo Repository', () => {
         expect(editedAppointment).toBeTruthy()
         expect(editedAppointment.id).toBeTruthy()
         expect(editedAppointment.name).toBe('any_name')
-        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(editedAppointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString())
+        expect(editedAppointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
       })
     })
 
@@ -72,8 +72,8 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment).toBeTruthy()
         expect(appointment.id).toBeTruthy()
         expect(appointment.name).toBe('any_name')
-        expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)))
-        expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)))
+        expect(appointment.birthday).toEqual(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString())
+        expect(appointment.appointment_date).toEqual(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
       })
 
       test('Should return null if loadByName fails', async () => {
@@ -95,13 +95,13 @@ describe('Appointment Mongo Repository', () => {
       test('Should return an list of appointment with the same appointment_date day on success', async () => {
         await appointmentCollection.insertMany(mockListOfEditAppointmentParams(20))
         const sut = makeSut()
-        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)))
+        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
         expect(appointment.length).toBe(20)
       })
 
       test('Should return an empty list if there is no matching day', async () => {
         const sut = makeSut()
-        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)))
+        const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
         expect(appointment.length).toBe(0)
       })
     })
