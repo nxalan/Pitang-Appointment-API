@@ -1,7 +1,7 @@
 import { LoadAppointmentsRepository } from './db-load-appointments-protocols'
 import { DbLoadAppointments } from './db-load-appointments'
 import MockDate from 'mockdate'
-import { mockListOfEditAppointmentParamsWithDifferentHours, throwError } from '@/domain/test'
+import { mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, throwError } from '@/domain/test'
 import { mockLoadAppointmentsRepository } from '@/data/test'
 
 type SutTypes = {
@@ -36,8 +36,8 @@ describe('DbLoadAppointments', () => {
 
   test('Should return a list of Appointments on success', async () => {
     const { sut } = makeSut()
-    const Appointments = await sut.load()
-    expect(Appointments.length).toBe(20)
+    const appointments = await sut.load()
+    expect(appointments).toEqual(mockAppointmentModels())
   })
 
   test('Should throw if LoadAppointmentsRepository throws', async () => {
