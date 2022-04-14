@@ -5,6 +5,7 @@ import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointm
 import { LoadAppointmentByIdRepository } from '@/data/usecases/appointment/load-appointment-by-id'
 import { LoadAppointmentsByDayRepository } from '@/data/usecases/appointment/load-appointments-by-day'
 import { LoadAppointmentsByHourRepository } from '@/data/usecases/appointment/load-appointments-by-hour'
+import { LoadAppointmentsRepository } from '@/data/protocols/db/appointment/load-appointments-repository'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
@@ -58,4 +59,13 @@ export const mockLoadAppointmentsByHourRepository = (): LoadAppointmentsByHourRe
     }
   }
   return new LoadAppointmentsByHourRepositoryStub()
+}
+
+export const mockLoadAppointmentsRepository = (): LoadAppointmentsRepository => {
+  class LoadAppointmentsRepositoryStub implements LoadAppointmentsRepository {
+    async loadAll (): Promise<AppointmentModel[]> {
+      return new Promise(resolve => resolve(mockListOfEditAppointmentParamsWithSameHours(20)))
+    }
+  }
+  return new LoadAppointmentsRepositoryStub()
 }
