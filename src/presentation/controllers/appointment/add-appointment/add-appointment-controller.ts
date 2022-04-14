@@ -1,6 +1,5 @@
 import { HttpResponse, HttpRequest, Controller, AddAppointment, Validation } from '.'
-import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { InvalidParamError, NameInUseError } from '@/presentation/errors'
+import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
 
 export class AddAppointmentController implements Controller {
   constructor (
