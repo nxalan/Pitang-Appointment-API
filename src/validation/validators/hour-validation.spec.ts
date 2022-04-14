@@ -3,7 +3,7 @@ import { LoadAppointmentsByHour } from '@/domain/usecases/appointment/load-appoi
 import { InvalidParamError } from '@/presentation/errors'
 import { mockLoadAppointmentsByHour } from '@/validation/test'
 import MockDate from 'mockdate'
-import { mockListOfEditAppointmentParams } from '@/domain/test'
+import { mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
 
 type SutTypes = {
   sut: HourValidation
@@ -36,14 +36,14 @@ describe('Hour Validation', () => {
 
   test('Should return an error if HourValidator returns false', async () => {
     const { sut, loadAppointmentsByHourStub } = makeSut()
-    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParams(2)))
+    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParamsWithSameHours(2)))
     const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
     expect(response).toEqual(new InvalidParamError('appointment_date, the chosen hour is already full'))
   })
 
   test('Should return if date is a valid hour', async () => {
     const { sut, loadAppointmentsByHourStub } = makeSut()
-    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParams(1)))
+    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParamsWithSameHours(1)))
     const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
     expect(response).toBeFalsy()
   })

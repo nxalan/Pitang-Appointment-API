@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { AppointmentMongoRepository } from './appointment-mongo-repository'
-import { mockAddAppointmentParams, mockEditAppointmentParams, mockListOfEditAppointmentParams } from '@/domain/test'
+import { mockAddAppointmentParams, mockEditAppointmentParams, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
 import MockDate from 'mockdate'
 
 let appointmentCollection: Collection
@@ -93,7 +93,7 @@ describe('Appointment Mongo Repository', () => {
     })
     describe('loadAppointmentsByDay', () => {
       test('Should return an list of appointment with the same appointment_date day on success', async () => {
-        await appointmentCollection.insertMany(mockListOfEditAppointmentParams(20))
+        await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
         const sut = makeSut()
         const appointment = await sut.loadByDay(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
         expect(appointment.length).toBe(20)
@@ -107,7 +107,7 @@ describe('Appointment Mongo Repository', () => {
     })
     describe('loadAppointmentsByHour', () => {
       test('Should return an list of appointment with the same appointment_date hour on success', async () => {
-        await appointmentCollection.insertMany(mockListOfEditAppointmentParams(2))
+        await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(2))
         const sut = makeSut()
         const appointment = await sut.loadByHour(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString())
         expect(appointment.length).toBe(2)
