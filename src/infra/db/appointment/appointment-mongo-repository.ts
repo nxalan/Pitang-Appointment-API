@@ -1,12 +1,12 @@
-import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository, LoadAppointmentsByDayRepository } from '@/data/protocols/db/appointment'
+import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository } from '@/data/protocols/db/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
-import { endOfDay, startOfDay } from 'date-fns'
+import { endOfDay, endOfHour, startOfDay, startOfHour } from 'date-fns'
 
-export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository {
+export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository {
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const result = await appointmentCollection.insertOne(appointmentData)
@@ -47,6 +47,13 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const appointmentsList = await appointmentCollection.find(
       { appointment_date: { $gte: startOfDay(new Date(date)).toISOString(), $lte: endOfDay(new Date(date)).toISOString() } }).toArray()
+    return appointmentsList && MongoHelper.mapCollection(appointmentsList)
+  }
+
+  async loadByHour (date: string): Promise<AppointmentModel[]> {
+    const appointmentCollection = await MongoHelper.getCollection('appointments')
+    const appointmentsList = await appointmentCollection.find(
+      { appointment_date: { $gte: startOfHour(new Date(date)).toISOString(), $lte: endOfHour(new Date(date)).toISOString() } }).toArray()
     return appointmentsList && MongoHelper.mapCollection(appointmentsList)
   }
 }
