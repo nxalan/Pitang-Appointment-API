@@ -119,5 +119,36 @@ describe('Appointment Mongo Repository', () => {
         expect(appointment.length).toBe(0)
       })
     })
+    describe('loadAll', () => {
+      test('Should load all appointments on success', async () => {
+        await appointmentCollection.insertMany([{
+          id: 'any_id',
+          name: 'any_name',
+          birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
+          appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+          status: 'NOT VACCINED',
+          status_comment: ''
+        }, {
+          id: 'other_id',
+          name: 'other_name',
+          birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
+          appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+          status: 'VACCINED',
+          status_comment: 'sample comment'
+        }])
+        const sut = makeSut()
+        const appointments = await sut.loadAll()
+        expect(appointments.length).toBe(2)
+        expect(appointments[0].id).toBeTruthy()
+        expect(appointments[0].name).toBe('any_name')
+        expect(appointments[1].name).toBe('other_name')
+      })
+
+      test('Should load empty list', async () => {
+        const sut = makeSut()
+        const appointments = await sut.loadAll()
+        expect(appointments.length).toBe(0)
+      })
+    })
   })
 })
