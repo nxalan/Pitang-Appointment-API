@@ -1,5 +1,5 @@
 import { HttpRequest, AddAppointment, Validation } from '.'
-import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAppointmentController } from './add-appointment-controller'
 import { mockAddAppointment, mockValidation } from '@/presentation/test'
 import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
@@ -79,7 +79,7 @@ describe('Add Appointment Controller', () => {
 
   test('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any field'))
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any field')))
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
   })

@@ -1,6 +1,7 @@
-import { RequiredFieldValidation, ValidationComposite, DateValidation } from '@/validation/validators'
+import { RequiredFieldValidation, ValidationComposite, DateValidation, DayValidation, HourValidation } from '@/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
-import { DateValidatorAdapter } from '@/infra/validators/date-validator-adapter'
+import { makeDbLoadAppointmentsByDay } from '@/main/factories/usecases/appointment/load-appointments-by-day/db-load-appointments-by-day-factory'
+import { makeDbLoadAppointmentsByHour } from '@/main/factories/usecases/appointment/load-appointments-by-hour/db-load-appointments-by-hour-factory'
 
 export const makeAddAppointmentValidation = (): ValidationComposite => {
   const validations: Validation[] = []
@@ -8,7 +9,13 @@ export const makeAddAppointmentValidation = (): ValidationComposite => {
     validations.push(new RequiredFieldValidation(field))
   }
   for (const field of ['birthday', 'appointment_date']) {
-    validations.push(new DateValidation(field, new DateValidatorAdapter()))
+    validations.push(new DateValidation(field))
+  }
+  for (const field of ['appointment_date']) {
+    validations.push(new DayValidation(field, makeDbLoadAppointmentsByDay()))
+  }
+  for (const field of ['appointment_date']) {
+    validations.push(new HourValidation(field, makeDbLoadAppointmentsByHour()))
   }
   return new ValidationComposite(validations)
 }

@@ -11,8 +11,6 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const editAppointmentRepositoryStub = mockEditAppointmentRepository()
-  const loadAppointmentByNameRepositoryStub = mockLoadAppointmentByNameRepository()
-  jest.spyOn(loadAppointmentByNameRepositoryStub, 'loadByName').mockReturnValue(Promise.resolve(null as any))
   const sut = new DbEditAppointment(editAppointmentRepositoryStub)
   return {
     sut,
@@ -33,10 +31,10 @@ describe('DbEditAppointment Usecase', () => {
     const EditSpy = jest.spyOn(editAppointmentRepositoryStub, 'edit')
     await sut.edit(mockEditAppointmentParams())
     expect(EditSpy).toHaveBeenCalledWith({
-      appointment_id: 'any_id',
+      id: 'any_id',
       name: 'any_name',
-      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
-      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)),
+      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
+      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
       status: 'any_status',
       status_comment: 'any_status_comment'
     })
@@ -53,5 +51,20 @@ describe('DbEditAppointment Usecase', () => {
     const { sut } = makeSut()
     const appointment = await sut.edit(mockEditAppointmentParams())
     expect(appointment).toEqual(mockAppointmentModel())
+  })
+
+  test('Should call editAppointmentRepositoryStub with birthday and appointment_date on ISOString format', async () => {
+    const { sut, editAppointmentRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(editAppointmentRepositoryStub, 'edit')
+    const requestWithoutISOString = {
+      id: 'any_id',
+      name: 'any_name',
+      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)) as unknown as string,
+      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) as unknown as string,
+      status: 'NOT VACCINED',
+      status_comment: ''
+    }
+    await sut.edit(requestWithoutISOString)
+    expect(addSpy).toHaveBeenCalledWith(mockAppointmentModel())
   })
 })

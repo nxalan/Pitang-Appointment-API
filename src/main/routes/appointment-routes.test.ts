@@ -2,18 +2,17 @@ import { Collection } from 'mongodb'
 import request from 'supertest'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import app from '@/main/config/app'
-import { HttpResponse } from '@/presentation/protocols'
+import { mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
 
 let appointmentCollection: Collection
 
-const mockAppointment = async (): Promise<HttpResponse> => {
+const mockAppointment = (): any => {
   const appointment = {
     name: 'any_name',
-    birthday: new Date(),
-    appointment_date: new Date()
+    birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
+    appointment_date: new Date(new Date().setDate(new Date().getDate() + 1))
   }
-  const response = await request(app).post('/api/appointment').send(appointment)
-  return response
+  return appointment
 }
 
 describe('Appointment Routes', () => {
@@ -32,13 +31,13 @@ describe('Appointment Routes', () => {
 
   describe('POST /appointment', () => {
     test('Should return 200 on add-appointment', async () => {
-      const response = await mockAppointment()
-      expect(response.statusCode).toBe(200)
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      expect(storedAppointment.statusCode).toBe(200)
     })
 
-    test('Should return 200 on edit-appointment with a valid appointment_id', async () => {
-      const storedMockAppointment = await mockAppointment()
-      const { id } = storedMockAppointment.body
+    test('Should return 200 on edit-appointment with a valid id', async () => {
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      const { id } = storedAppointment.body
       const modifiedAppointment = {
         name: 'modified_name',
         birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
@@ -50,15 +49,46 @@ describe('Appointment Routes', () => {
       expect(response.statusCode).toBe(200)
     })
 
-    test('Should return 200 on edit-appointment with status and status_comment only on the request', async () => {
-      const storedMockAppointment = await mockAppointment()
-      const { id } = storedMockAppointment.body
+    test('Should return 200 on edit-appointment with only status and status_comment on the request body', async () => {
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      const { id } = storedAppointment.body
       const modifiedAppointment = {
         status: 'modified_status',
         status_comment: 'modified_status_comment'
       }
       const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
       expect(response.statusCode).toBe(200)
+    })
+
+    test('Should return 200 on edit-appointment with request with no body', async () => {
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      const { id } = storedAppointment.body
+      const response = await request(app).put(`/api/appointment/${id}`).send()
+      expect(response.statusCode).toBe(200)
+    })
+
+    test('Should return 400 on create-appointment if selected appointment_date day is full', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      expect(storedAppointment.statusCode).toBe(400)
+    })
+
+    test('Should return 200 on create-appointment if selected appointment_date day is not full', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(19))
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      expect(storedAppointment.statusCode).toBe(200)
+    })
+
+    test('Should return 400 on create-appointment if selected appointment_date hour is full', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(2))
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      expect(storedAppointment.statusCode).toBe(400)
+    })
+
+    test('Should return 200 on create-appointment if selected appointment_date hour is not full', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(1))
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      expect(storedAppointment.statusCode).toBe(200)
     })
   })
 })

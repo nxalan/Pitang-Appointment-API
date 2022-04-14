@@ -1,10 +1,10 @@
 import { AppointmentModel } from '@/domain/models/appointment'
 
 export type EditAppointmentParams = {
-  appointment_id: string
+  id: string
   name?: string
-  birthday?: Date
-  appointment_date?: Date
+  birthday?: string
+  appointment_date?: string
   status?: string
   status_comment?: string
 }

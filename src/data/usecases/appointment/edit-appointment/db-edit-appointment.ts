@@ -6,8 +6,14 @@ export class DbEditAppointment implements EditAppointment {
   ) { }
 
   async edit (appointmentData: EditAppointmentParams): Promise<AppointmentModel> {
-    const newAppointment = await this.EditAppointmentRepository.edit(appointmentData.appointment_id ? appointmentData
-      : Object.assign({}, appointmentData, { status: 'NOT VACCINED', status_comment: '' }))
+    const appointmentDataInISODates = { ...appointmentData }
+    if (appointmentData.birthday) {
+      appointmentDataInISODates.birthday = new Date(appointmentData.birthday).toISOString()
+    }
+    if (appointmentData.appointment_date) {
+      appointmentDataInISODates.appointment_date = new Date(appointmentData.appointment_date).toISOString()
+    }
+    const newAppointment = await this.EditAppointmentRepository.edit(appointmentDataInISODates)
     return newAppointment
   }
 }

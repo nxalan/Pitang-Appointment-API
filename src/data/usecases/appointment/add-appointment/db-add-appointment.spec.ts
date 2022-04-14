@@ -32,8 +32,8 @@ describe('DbAddAppointment Usecase', () => {
     await sut.add(mockAddAppointmentParams())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
-      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
-      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)),
+      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
+      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
       status: 'NOT VACCINED',
       status_comment: ''
     })
@@ -50,5 +50,19 @@ describe('DbAddAppointment Usecase', () => {
     const { sut } = makeSut()
     const appointment = await sut.add(mockAddAppointmentParams())
     expect(appointment).toEqual(mockAppointmentModel())
+  })
+
+  test('Should call addAppointmentRepositoryStub with birthday and appointment_date on ISOString format', async () => {
+    const { sut, addAppointmentRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(addAppointmentRepositoryStub, 'add')
+    const requestWithoutISOString = {
+      name: 'any_name',
+      birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)) as unknown as string,
+      appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) as unknown as string
+    }
+    await sut.add(requestWithoutISOString)
+    const appointmentModelWithoutId: any = mockAppointmentModel()
+    delete appointmentModelWithoutId.id
+    expect(addSpy).toHaveBeenCalledWith(appointmentModelWithoutId)
   })
 })

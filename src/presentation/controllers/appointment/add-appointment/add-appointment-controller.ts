@@ -1,6 +1,5 @@
 import { HttpResponse, HttpRequest, Controller, AddAppointment, Validation } from '.'
-import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { InvalidParamError, NameInUseError } from '@/presentation/errors'
+import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
 
 export class AddAppointmentController implements Controller {
   constructor (
@@ -10,7 +9,7 @@ export class AddAppointmentController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = await this.validation.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }

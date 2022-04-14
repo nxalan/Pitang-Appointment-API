@@ -2,8 +2,8 @@ import { AppointmentModel } from '@/domain/models/appointment'
 
 export type AddAppointmentParams = {
   name: string
-  birthday: Date
-  appointment_date: Date
+  birthday: string
+  appointment_date: string
 }
 
 export interface AddAppointment {

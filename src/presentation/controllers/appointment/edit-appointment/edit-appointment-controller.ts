@@ -1,17 +1,22 @@
 import { HttpResponse, HttpRequest, Controller, EditAppointment, Validation, LoadAppointmentById } from '.'
 import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { InvalidParamError, NameInUseError } from '@/presentation/errors'
+import { InvalidParamError } from '@/presentation/errors'
 
 export class EditAppointmentController implements Controller {
   constructor (
     private readonly editAppointment: EditAppointment,
     private readonly loadAppointmentById: LoadAppointmentById,
     private readonly validation: Validation
-  ) { }
+  ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.params)
+      const id = httpRequest.params.id
+      const storedAppointment = await this.loadAppointmentById.loadById(id)
+      if (!storedAppointment) {
+        return forbidden(new InvalidParamError('id'))
+      }
+      const error = await this.validation.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }
@@ -20,13 +25,11 @@ export class EditAppointmentController implements Controller {
       const appointment_date = httpRequest.body?.appointment_date
       const status = httpRequest.body?.status
       const status_comment = httpRequest.body?.status_comment
-      const appointment_id = httpRequest.params.appointment_id
-      const storedAppointment = await this.loadAppointmentById.loadById(appointment_id)
-      if (!storedAppointment) {
-        return forbidden(new InvalidParamError('appointment_id'))
+      if (appointment_date) {
+
       }
       const appointment = await this.editAppointment.edit({
-        appointment_id,
+        id,
         name,
         birthday,
         appointment_date,
