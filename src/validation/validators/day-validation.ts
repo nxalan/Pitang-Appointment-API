@@ -17,7 +17,7 @@ export class DayValidation implements Validation {
       isValid = false
     }
     if (!isValid) {
-      return new InvalidParamError(this.fieldName)
+      return new InvalidParamError(`${this.fieldName}`)
     }
   }
 }
