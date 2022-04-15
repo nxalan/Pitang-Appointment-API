@@ -62,4 +62,10 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     const appointments = await appointmentsCollection.find().toArray()
     return MongoHelper.mapCollection(appointments)
   }
+
+  async delete (id: string): Promise<AppointmentModel> {
+    const appointmentsCollection = await MongoHelper.getCollection('appointments')
+    const appointment = await appointmentsCollection.findOneAndDelete({ _id: new ObjectId(id) })
+    return appointment && appointment.value && MongoHelper.map(appointment.value)
+  }
 }
