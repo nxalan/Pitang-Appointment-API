@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, DeleteAppointment, LoadAppointmentById } from './delete-appointments-controller-protocols'
+import { Controller, HttpRequest, HttpResponse, DeleteAppointment, LoadAppointmentById } from './delete-appointment-controller-protocols'
 
 export class DeleteAppointmentController implements Controller {
   constructor (
