@@ -1,7 +1,7 @@
 import { EditAppointmentRepository } from '.'
 import { DbEditAppointment } from './db-edit-appointment'
 import { mockEditAppointmentParams, mockAppointmentModel, throwError } from '@/domain/test'
-import { mockEditAppointmentRepository, mockLoadAppointmentByNameRepository } from '@/data/test'
+import { mockEditAppointmentRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
 type SutTypes = {
