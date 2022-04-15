@@ -1,7 +1,7 @@
 import { LoadAppointmentsController } from './load-appointments-controller'
 import { LoadAppointments } from './load-appointments-controller-protocols'
 import MockDate from 'mockdate'
-import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockAppointmentModels, throwError } from '@/domain/test'
 import { mockLoadAppointments } from '@/presentation/test'
 
@@ -38,14 +38,16 @@ describe('LoadAppointments Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
+    expect(httpResponse.statusCode).toEqual(200)
     expect(httpResponse).toEqual(ok(mockAppointmentModels()))
   })
 
-  test('Should return 204 if LoadAppointments returns empty', async () => {
+  test('Should return 200 if LoadAppointments returns empty', async () => {
     const { sut, loadAppointmentsStub } = makeSut()
     jest.spyOn(loadAppointmentsStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve([])))
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(noContent())
+    expect(httpResponse.body).toEqual([])
+    expect(httpResponse.statusCode).toEqual(200)
   })
 
   test('Should return 500 if LoadAppointments throws', async () => {

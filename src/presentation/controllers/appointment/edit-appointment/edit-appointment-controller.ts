@@ -25,9 +25,6 @@ export class EditAppointmentController implements Controller {
       const appointment_date = httpRequest.body?.appointment_date
       const status = httpRequest.body?.status
       const status_comment = httpRequest.body?.status_comment
-      if (appointment_date) {
-
-      }
       const appointment = await this.editAppointment.edit({
         id,
         name,
