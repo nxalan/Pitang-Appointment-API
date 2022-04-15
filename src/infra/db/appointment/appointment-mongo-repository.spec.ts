@@ -1,7 +1,7 @@
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { AppointmentMongoRepository } from './appointment-mongo-repository'
-import { mockAddAppointmentParams, mockEditAppointmentParams, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
+import { mockAddAppointmentParams, mockAppointmentModels, mockEditAppointmentParams, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
 import MockDate from 'mockdate'
 
 let appointmentCollection: Collection
@@ -121,21 +121,7 @@ describe('Appointment Mongo Repository', () => {
     })
     describe('loadAll', () => {
       test('Should load all appointments on success', async () => {
-        await appointmentCollection.insertMany([{
-          id: 'any_id',
-          name: 'any_name',
-          birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
-          appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
-          status: 'NOT VACCINED',
-          status_comment: ''
-        }, {
-          id: 'other_id',
-          name: 'other_name',
-          birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString(),
-          appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
-          status: 'VACCINED',
-          status_comment: 'sample comment'
-        }])
+        await appointmentCollection.insertMany(mockAppointmentModels())
         const sut = makeSut()
         const appointments = await sut.loadAll()
         expect(appointments.length).toBe(2)
@@ -148,6 +134,25 @@ describe('Appointment Mongo Repository', () => {
         const sut = makeSut()
         const appointments = await sut.loadAll()
         expect(appointments.length).toBe(0)
+      })
+    })
+    describe('delete', () => {
+      test('Should delete one appointment on success', async () => {
+        const sut = makeSut()
+        const storedAppointment = await sut.add(mockAddAppointmentParams())
+        const appointment = await sut.delete(storedAppointment.id)
+        const appointments = await sut.loadAll()
+        expect(appointments.length).toBe(0)
+        expect(appointment.id).toBeTruthy()
+        expect(appointment.name).toBe('any_name')
+      })
+
+      test('Should return all appointments if id is invalid', async () => {
+        await appointmentCollection.insertMany(mockAppointmentModels())
+        const sut = makeSut()
+        await sut.delete(new ObjectId().toString())
+        const appointments = await sut.loadAll()
+        expect(appointments.length).toBe(2)
       })
     })
   })
