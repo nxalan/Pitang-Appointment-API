@@ -6,7 +6,7 @@ import { makeLoadAppointmentsController } from '@/main/factories/controllers/app
 import { makeDeleteAppointmentController } from '@/main/factories/controllers/appointment/delete-appointment/delete-appointment-controller-factory'
 import { adaptRoute } from '@/main/adapters/express-route-adapter'
 export default (router: Router): void => {
-  router.get('/appointment', adaptRoute(makeLoadAppointmentsController()))
+  router.get('/appointments', adaptRoute(makeLoadAppointmentsController()))
   router.post('/appointment/', adaptRoute(makeAddAppointmentController()))
   router.put('/appointment/:id', adaptRoute(makeEditAppointmentController()))
   router.delete('/appointment/:id', adaptRoute(makeDeleteAppointmentController()))
