@@ -92,10 +92,10 @@ describe('Appointment Routes', () => {
       expect(response.statusCode).toBe(200)
     })
   })
-  describe('GET /appointment', () => {
+  describe('GET /appointments', () => {
     test('Should return 200 on load appointments', async () => {
       await appointmentCollection.insertMany(mockAppointmentModels())
-      const response = await request(app).get('/api/appointment')
+      const response = await request(app).get('/api/appointments')
       expect(response.statusCode).toBe(200)
       expect(response.body.length).toBe(2)
     })
@@ -107,8 +107,17 @@ describe('Appointment Routes', () => {
       const response = await request(app).delete(`/api/appointment/${id}`)
       expect(response.statusCode).toBe(200)
       expect(response.body.name).toBe('any_name')
-      const appointmentsListResponse = await request(app).get('/api/appointment')
+      const appointmentsListResponse = await request(app).get('/api/appointments')
       expect(appointmentsListResponse.body.length).toBe(0)
+    })
+  })
+  describe('GET /appointment/appointment_id', () => {
+    test('Should return an appointment if valid id is provided', async () => {
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      const { id } = storedAppointment.body
+      const response = await request(app).get(`/api/appointment/${id}`)
+      expect(response.statusCode).toBe(200)
+      expect(response.body.name).toBe('any_name')
     })
   })
 })
