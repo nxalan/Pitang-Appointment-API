@@ -1,8 +1,9 @@
-import { DbLoadAppointments } from '@/data/usecases/appointment/load-appointments/db-load-appointments'
-import { LoadAppointments } from '@/domain/usecases/appointment/load-appointments'
-import { AppointmentMongoRepository } from '@/infra/db/appointment/appointment-mongo-repository'
+import { Controller } from '@/presentation/protocols'
+import { makeLogControllerDecorator } from '@/main/factories/decorators/log-controller-decorator-factory'
+import { LoadAppointmentsController } from '@/presentation/controllers/appointment/load-appointments/load-appointments-controller'
+import { makeDbLoadAppointments } from '@/main/factories/usecases/appointment/load-appointments/db-load-appointments-factory'
 
-export const makeDbLoadappointments = (): LoadAppointments => {
-  const appointmentMongoRepository = new AppointmentMongoRepository()
-  return new DbLoadAppointments(appointmentMongoRepository)
+export const makeLoadAppointmentsController = (): Controller => {
+  const controller = new LoadAppointmentsController(makeDbLoadAppointments())
+  return makeLogControllerDecorator(controller)
 }
