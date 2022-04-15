@@ -4,6 +4,7 @@ import { EditAppointment, EditAppointmentParams } from '@/domain/usecases/appoin
 import { AppointmentModel } from '@/domain/models/appointment'
 import { LoadAppointmentById } from '@/domain/usecases/appointment/load-appointment-by-id'
 import { LoadAppointments } from '@/domain/usecases/appointment/load-appointments'
+import { DeleteAppointment } from '@/domain/usecases/appointment/delete-appointment'
 
 export const mockAddAppointment = (): AddAppointment => {
   class AddAppointmentStub implements AddAppointment {
@@ -39,4 +40,13 @@ export const mockLoadAppointments = (): LoadAppointments => {
     }
   }
   return new LoadAppointmentsStub()
+}
+
+export const mockDeleteAppointment = (): DeleteAppointment => {
+  class DeleteAppointmentStub implements DeleteAppointment {
+    async delete (id: string): Promise<AppointmentModel> {
+      return new Promise(resolve => resolve(mockAppointmentModel()))
+    }
+  }
+  return new DeleteAppointmentStub()
 }
