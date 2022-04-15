@@ -121,4 +121,15 @@ describe('Appointment Routes', () => {
       expect(response.body.name).toBe('any_name')
     })
   })
+  describe('GET /appointment/restricted-dates', () => {
+    test('Should return an list of restricted days and hours on success', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(2))
+      const response = await request(app).get('/api/appointments/restricted-dates')
+      expect(response.statusCode).toBe(200)
+      expect(response.body.restrictedDays.length).toBe(1)
+      expect(response.body.restrictedHours.length).toBe(1)
+      expect(response.statusCode).toBe(200)
+    })
+  })
 })
