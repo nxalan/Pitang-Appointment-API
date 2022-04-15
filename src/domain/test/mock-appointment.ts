@@ -1,4 +1,4 @@
-import { AppointmentModel } from '@/domain/models/appointment'
+import { AppointmentModel, RestrictedDatesModel } from '@/domain/models/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { randomUUID } from 'crypto'
@@ -83,3 +83,14 @@ export const mockListOfEditAppointmentParamsWithDifferentHours = (numberOfAppoin
   })
   return listOfAppointments
 }
+
+export const mockRestrictedDatesModel = (): RestrictedDatesModel => ({
+  restrictedDays: [
+    new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+    new Date(new Date().setDate(new Date().getDate() + 2)).toISOString()
+  ],
+  restrictedHours: [
+    new Date(new Date().setHours(new Date().getHours() + 1)).toISOString(),
+    new Date(new Date().setHours(new Date().getHours() + 2)).toISOString()
+  ]
+})
