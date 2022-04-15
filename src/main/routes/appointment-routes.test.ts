@@ -95,9 +95,20 @@ describe('Appointment Routes', () => {
   describe('GET /appointment', () => {
     test('Should return 200 on load appointments', async () => {
       await appointmentCollection.insertMany(mockAppointmentModels())
-      await request(app)
-        .get('/api/appointment')
-        .expect(200)
+      const response = await request(app).get('/api/appointment')
+      expect(response.statusCode).toBe(200)
+      expect(response.body.length).toBe(2)
+    })
+  })
+  describe('DELETE /appointment/appointment_id', () => {
+    test('Should return an appointment on success', async () => {
+      const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
+      const { id } = storedAppointment.body
+      const response = await request(app).delete(`/api/appointment/${id}`)
+      expect(response.statusCode).toBe(200)
+      expect(response.body.name).toBe('any_name')
+      const appointmentsListResponse = await request(app).get('/api/appointment')
+      expect(appointmentsListResponse.body.length).toBe(0)
     })
   })
 })
