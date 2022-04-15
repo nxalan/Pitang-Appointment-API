@@ -1,12 +1,8 @@
-import { mockAppointmentModel, mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
-import { AddAppointmentRepository, EditAppointmentRepository } from '@/data/protocols/db/appointment'
-import { AppointmentModel, AddAppointmentParams, LoadAppointmentByNameRepository } from '@/data/usecases/appointment/add-appointment'
+import { mockAppointmentModel, mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel } from '@/domain/test'
+import { AddAppointmentRepository, EditAppointmentRepository, DeleteAppointmentRepository, LoadAppointmentsByHourRepository, LoadAppointmentsByDayRepository, LoadAppointmentByIdRepository, LoadAppointmentsRepository, LoadRestrictedDatesRepository } from '@/data/protocols/db/appointment'
+import { AppointmentModel, AddAppointmentParams } from '@/data/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointment'
-import { LoadAppointmentByIdRepository } from '@/data/usecases/appointment/load-appointment-by-id'
-import { LoadAppointmentsByDayRepository } from '@/data/usecases/appointment/load-appointments-by-day'
-import { LoadAppointmentsByHourRepository } from '@/data/usecases/appointment/load-appointments-by-hour'
-import { LoadAppointmentsRepository } from '@/data/protocols/db/appointment/load-appointments-repository'
-import { DeleteAppointmentRepository } from '@/data/protocols/db/appointment/delete-appointment-repository'
+import { RestrictedDatesModel } from '@/domain/models/appointment'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
@@ -24,15 +20,6 @@ export const mockEditAppointmentRepository = (): EditAppointmentRepository => {
     }
   }
   return new EditAppointmentRepositoryStub()
-}
-
-export const mockLoadAppointmentByNameRepository = (): LoadAppointmentByNameRepository => {
-  class LoadAppointmentByNameRepositoryStub implements LoadAppointmentByNameRepository {
-    async loadByName (name: string): Promise<AppointmentModel> {
-      return new Promise(resolve => resolve(mockAppointmentModel()))
-    }
-  }
-  return new LoadAppointmentByNameRepositoryStub()
 }
 
 export const mockLoadAppointmentByIdRepository = (): LoadAppointmentByIdRepository => {
@@ -78,4 +65,13 @@ export const mockDeleteAppointmentRepository = (): DeleteAppointmentRepository =
     }
   }
   return new DeleteAppointmentRepositoryStub()
+}
+
+export const mockLoadRestrictedDatesRepository = (): LoadRestrictedDatesRepository => {
+  class LoadRestrictedDatesRepositoryStub implements LoadRestrictedDatesRepository {
+    async load (): Promise<RestrictedDatesModel> {
+      return new Promise(resolve => resolve(mockRestrictedDatesModel()))
+    }
+  }
+  return new LoadRestrictedDatesRepositoryStub()
 }
