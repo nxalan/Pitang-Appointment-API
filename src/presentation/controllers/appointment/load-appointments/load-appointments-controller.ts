@@ -1,4 +1,4 @@
-import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, LoadAppointments } from './load-appointments-controller-protocols'
 
 export class LoadAppointmentsController implements Controller {
@@ -7,7 +7,7 @@ export class LoadAppointmentsController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const appointments = await this.loadAppointments.load()
-      return appointments.length ? ok(appointments) : noContent()
+      return ok(appointments)
     } catch (error) {
       return serverError(error)
     }
