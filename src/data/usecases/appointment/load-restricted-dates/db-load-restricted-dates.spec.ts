@@ -1,20 +1,23 @@
-import { LoadRestrictedDatesRepository } from './db-load-restricted-dates-protocols'
+import { LoadRestrictedDaysAndHoursRepository } from './db-load-restricted-dates-protocols'
 import { DbLoadRestrictedDates } from './db-load-restricted-dates'
 import MockDate from 'mockdate'
 import { mockRestrictedDatesModel, throwError } from '@/domain/test'
-import { mockLoadRestrictedDatesRepository } from '@/data/test'
+import { mockLoadRestrictedDayRepository, mockLoadRestrictedHourRepository } from '@/data/test'
 
 type SutTypes = {
   sut: DbLoadRestrictedDates
-  loadRestrictedDatesRepositoryStub: LoadRestrictedDatesRepository
+  loadRestrictedDaysRepositoryStub: LoadRestrictedDaysAndHoursRepository
+  loadRestrictedHoursRepositoryStub: LoadRestrictedDaysAndHoursRepository
 }
 
 const makeSut = (): SutTypes => {
-  const loadRestrictedDatesRepositoryStub = mockLoadRestrictedDatesRepository()
-  const sut = new DbLoadRestrictedDates(loadRestrictedDatesRepositoryStub)
+  const loadRestrictedDaysRepositoryStub = mockLoadRestrictedDayRepository()
+  const loadRestrictedHoursRepositoryStub = mockLoadRestrictedHourRepository()
+  const sut = new DbLoadRestrictedDates(loadRestrictedDaysRepositoryStub, loadRestrictedHoursRepositoryStub)
   return {
     sut,
-    loadRestrictedDatesRepositoryStub
+    loadRestrictedDaysRepositoryStub,
+    loadRestrictedHoursRepositoryStub
   }
 }
 
@@ -28,10 +31,12 @@ describe('DbLoadRestrictedDates', () => {
   })
 
   test('Should call LoadRestrictedDatesRepository', async () => {
-    const { sut, loadRestrictedDatesRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadRestrictedDatesRepositoryStub, 'load')
+    const { sut, loadRestrictedDaysRepositoryStub, loadRestrictedHoursRepositoryStub } = makeSut()
+    const loadDaySpy = jest.spyOn(loadRestrictedDaysRepositoryStub, 'load')
+    const loadHourSpy = jest.spyOn(loadRestrictedHoursRepositoryStub, 'load')
     await sut.load()
-    expect(loadSpy).toHaveBeenCalled()
+    expect(loadDaySpy).toHaveBeenCalled()
+    expect(loadHourSpy).toHaveBeenCalled()
   })
 
   test('Should return the restricted dates on success', async () => {
@@ -40,9 +45,16 @@ describe('DbLoadRestrictedDates', () => {
     expect(restrictedDates).toEqual(mockRestrictedDatesModel())
   })
 
-  test('Should throw if LoadRestrictedDatesRepository throws', async () => {
-    const { sut, loadRestrictedDatesRepositoryStub } = makeSut()
-    jest.spyOn(loadRestrictedDatesRepositoryStub, 'load').mockImplementationOnce(throwError)
+  test('Should throw if LoadRestrictedDaysRepositoryStub throws', async () => {
+    const { sut, loadRestrictedDaysRepositoryStub } = makeSut()
+    jest.spyOn(loadRestrictedDaysRepositoryStub, 'load').mockImplementationOnce(throwError)
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw if LoadRestrictedDaysRepositoryStub throws', async () => {
+    const { sut, loadRestrictedHoursRepositoryStub } = makeSut()
+    jest.spyOn(loadRestrictedHoursRepositoryStub, 'load').mockImplementationOnce(throwError)
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

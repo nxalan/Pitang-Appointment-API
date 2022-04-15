@@ -1,8 +1,7 @@
-import { mockAppointmentModel, mockAppointmentModels, mockAppointmentResponseModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel } from '@/domain/test'
-import { AddAppointmentRepository, EditAppointmentRepository, DeleteAppointmentRepository, LoadAppointmentsByHourRepository, LoadAppointmentsByDayRepository, LoadAppointmentByIdRepository, LoadAppointmentsRepository, LoadRestrictedDatesRepository } from '@/data/protocols/db/appointment'
-import { AppointmentResponseModel, AppointmentModel, AddAppointmentParams } from '@/data/usecases/appointment/add-appointment'
+import { mockAppointmentModel, mockAppointmentModels, mockAppointmentResponseModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel, mockRestrictedDayModel, mockRestrictedHourModel } from '@/domain/test'
+import { AddAppointmentRepository, EditAppointmentRepository, DeleteAppointmentRepository, LoadAppointmentsByHourRepository, LoadAppointmentsByDayRepository, LoadAppointmentByIdRepository, LoadAppointmentsRepository, LoadRestrictedDatesDataModel, LoadRestrictedDaysAndHoursRepository } from '@/data/protocols/db/appointment'
+import { AppointmentResponseModel, AppointmentModel, AddAppointmentParams, RestrictedDatesModel } from '@/data/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointment'
-import { RestrictedDatesModel } from '@/domain/models/appointment'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
@@ -67,11 +66,29 @@ export const mockDeleteAppointmentRepository = (): DeleteAppointmentRepository =
   return new DeleteAppointmentRepositoryStub()
 }
 
-export const mockLoadRestrictedDatesRepository = (): LoadRestrictedDatesRepository => {
-  class LoadRestrictedDatesRepositoryStub implements LoadRestrictedDatesRepository {
+export const mockLoadRestrictedDatesRepository = (): LoadRestrictedDatesDataModel => {
+  class LoadRestrictedDatesRepositoryStub implements LoadRestrictedDatesDataModel {
     async load (): Promise<RestrictedDatesModel> {
       return new Promise(resolve => resolve(mockRestrictedDatesModel()))
     }
   }
   return new LoadRestrictedDatesRepositoryStub()
+}
+
+export const mockLoadRestrictedDayRepository = (): LoadRestrictedDaysAndHoursRepository => {
+  class LoadRestrictedDayRepositoryStub implements LoadRestrictedDaysAndHoursRepository {
+    async load (dateType: string, ammount: number): Promise<string[]> {
+      return new Promise(resolve => resolve(mockRestrictedDayModel()))
+    }
+  }
+  return new LoadRestrictedDayRepositoryStub()
+}
+
+export const mockLoadRestrictedHourRepository = (): LoadRestrictedDaysAndHoursRepository => {
+  class LoadRestrictedHourRepositoryStub implements LoadRestrictedDaysAndHoursRepository {
+    async load (dateType: string, ammount: number): Promise<string[]> {
+      return new Promise(resolve => resolve(mockRestrictedHourModel()))
+    }
+  }
+  return new LoadRestrictedHourRepositoryStub()
 }

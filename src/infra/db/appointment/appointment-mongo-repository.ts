@@ -1,4 +1,4 @@
-import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDayHourRepository } from '@/data/protocols/db/appointment'
+import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository } from '@/data/protocols/db/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { endOfDay, endOfHour, startOfDay, startOfHour } from 'date-fns'
 
-export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDayHourRepository {
+export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository {
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const result = await appointmentCollection.insertOne(appointmentData)
@@ -64,7 +64,7 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     return appointment && appointment.value && MongoHelper.map(appointment.value)
   }
 
-  async loadRestrictedDates (dateType: string, ammount: number): Promise<string[]> {
+  async load (dateType: string, ammount: number): Promise<string[]> {
     const appointmentsCollection = await MongoHelper.getCollection('appointments')
     const restrictedDates = appointmentsCollection.aggregate([
       {

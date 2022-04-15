@@ -98,3 +98,17 @@ export const mockRestrictedDatesModel = (): RestrictedDatesModel => ({
     new Date(new Date().setHours(new Date().getHours() + 2)).toISOString()
   ]
 })
+
+export const mockRestrictedDayModel = (): string[] => (
+  [
+    new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+    new Date(new Date().setDate(new Date().getDate() + 2)).toISOString()
+  ]
+)
+
+export const mockRestrictedHourModel = (): string[] => (
+  [
+    new Date(new Date().setHours(new Date().getHours() + 1)).toISOString(),
+    new Date(new Date().setHours(new Date().getHours() + 2)).toISOString()
+  ]
+)

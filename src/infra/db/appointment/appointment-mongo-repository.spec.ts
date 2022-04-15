@@ -137,13 +137,13 @@ describe('Appointment Mongo Repository', () => {
       test('Should return a list of restricted days', async () => {
         await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
         const sut = makeSut()
-        const restrictedDays = await sut.loadRestrictedDates('day', 20)
+        const restrictedDays = await sut.load('day', 20)
         expect(restrictedDays.length).toBe(1)
       })
 
       test('Should return an empty list if there is no restricted days', async () => {
         const sut = makeSut()
-        const restrictedDays = await sut.loadRestrictedDates('day', 20)
+        const restrictedDays = await sut.load('day', 20)
         expect(restrictedDays.length).toBe(0)
       })
     })
@@ -152,13 +152,13 @@ describe('Appointment Mongo Repository', () => {
         await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(5))
         await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(5))
         const sut = makeSut()
-        const restrictedHours = await sut.loadRestrictedDates('hour', 2)
+        const restrictedHours = await sut.load('hour', 2)
         expect(restrictedHours.length).toBe(5)
       })
 
       test('Should return an empty list if there is no restricted days', async () => {
         const sut = makeSut()
-        const restrictedHours = await sut.loadRestrictedDates('hour', 2)
+        const restrictedHours = await sut.load('hour', 2)
         expect(restrictedHours.length).toBe(0)
       })
     })
