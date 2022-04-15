@@ -6,6 +6,7 @@ import { LoadAppointmentByIdRepository } from '@/data/usecases/appointment/load-
 import { LoadAppointmentsByDayRepository } from '@/data/usecases/appointment/load-appointments-by-day'
 import { LoadAppointmentsByHourRepository } from '@/data/usecases/appointment/load-appointments-by-hour'
 import { LoadAppointmentsRepository } from '@/data/protocols/db/appointment/load-appointments-repository'
+import { DeleteAppointmentRepository } from '@/data/protocols/db/appointment/delete-appointment-repository'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
@@ -68,4 +69,13 @@ export const mockLoadAppointmentsRepository = (): LoadAppointmentsRepository => 
     }
   }
   return new LoadAppointmentsRepositoryStub()
+}
+
+export const mockDeleteAppointmentRepository = (): DeleteAppointmentRepository => {
+  class DeleteAppointmentRepositoryStub implements DeleteAppointmentRepository {
+    async delete (id: string): Promise<AppointmentModel> {
+      return new Promise(resolve => resolve(mockAppointmentModel()))
+    }
+  }
+  return new DeleteAppointmentRepositoryStub()
 }
