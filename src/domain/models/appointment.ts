@@ -7,6 +7,10 @@ export type AppointmentModel = {
   status_comment: string
 }
 
+export type AppointmentResponseModel = {
+  id: string
+}
+
 export type RestrictedDatesModel = {
   restrictedDays: string[]
   restrictedHours: string[]

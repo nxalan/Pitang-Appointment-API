@@ -33,6 +33,7 @@ describe('Appointment Routes', () => {
     test('Should return 200 on add-appointment', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       expect(storedAppointment.statusCode).toBe(200)
+      expect(storedAppointment.body.id).toBeTruthy()
     })
     test('Should return 400 on create-appointment if selected appointment_date day is full', async () => {
       await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))

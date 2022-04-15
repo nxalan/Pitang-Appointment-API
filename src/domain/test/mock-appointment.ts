@@ -1,4 +1,4 @@
-import { AppointmentModel, RestrictedDatesModel } from '@/domain/models/appointment'
+import { AppointmentModel, RestrictedDatesModel, AppointmentResponseModel } from '@/domain/models/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { randomUUID } from 'crypto'
@@ -11,6 +11,10 @@ export const mockAppointmentModel = (): AppointmentModel => ({
   appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
   status: 'NOT VACCINED',
   status_comment: ''
+})
+
+export const mockAppointmentResponseModel = (): AppointmentResponseModel => ({
+  id: 'any_id'
 })
 
 export const mockAppointmentModels = (): AppointmentModel[] => ([{

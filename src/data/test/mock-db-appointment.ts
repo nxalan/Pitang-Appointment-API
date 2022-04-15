@@ -1,13 +1,13 @@
-import { mockAppointmentModel, mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel } from '@/domain/test'
+import { mockAppointmentModel, mockAppointmentModels, mockAppointmentResponseModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel } from '@/domain/test'
 import { AddAppointmentRepository, EditAppointmentRepository, DeleteAppointmentRepository, LoadAppointmentsByHourRepository, LoadAppointmentsByDayRepository, LoadAppointmentByIdRepository, LoadAppointmentsRepository, LoadRestrictedDatesRepository } from '@/data/protocols/db/appointment'
-import { AppointmentModel, AddAppointmentParams } from '@/data/usecases/appointment/add-appointment'
+import { AppointmentResponseModel, AppointmentModel, AddAppointmentParams } from '@/data/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointment'
 import { RestrictedDatesModel } from '@/domain/models/appointment'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
-    async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
-      return new Promise(resolve => resolve(mockAppointmentModel()))
+    async add (appointmentData: AddAppointmentParams): Promise<AppointmentResponseModel> {
+      return new Promise(resolve => resolve(mockAppointmentResponseModel()))
     }
   }
   return new AddAppointmentRepositoryStub()

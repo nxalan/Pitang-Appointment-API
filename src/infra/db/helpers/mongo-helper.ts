@@ -7,10 +7,7 @@ export const MongoHelper = {
 
   async connect (url: string): Promise<void> {
     this.url = url
-    this.client = await MongoClient.connect(url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
+    this.client = await MongoClient.connect(url)
   },
 
   async disconnect (): Promise<void> {

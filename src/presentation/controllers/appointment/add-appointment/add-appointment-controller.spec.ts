@@ -3,7 +3,7 @@ import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-he
 import { AddAppointmentController } from './add-appointment-controller'
 import { mockAddAppointment, mockValidation } from '@/presentation/test'
 import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
-import { mockAppointmentModel } from '@/domain/test'
+import { mockAppointmentResponseModel } from '@/domain/test'
 import MockDate from 'mockdate'
 
 const mockRequest = (): HttpRequest => ({
@@ -66,7 +66,7 @@ describe('Add Appointment Controller', () => {
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(mockAppointmentModel()))
+    expect(httpResponse).toEqual(ok(mockAppointmentResponseModel()))
   })
 
   test('Should call Validation with correct value', async () => {
