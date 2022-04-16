@@ -1,11 +1,6 @@
 import { mockAppointmentModel, mockAppointmentModels, mockRestrictedDatesModel, mockAppointmentResponseModel } from '@/domain/test'
-import { AddAppointment, AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
-import { EditAppointment, EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
-import { AppointmentModel, RestrictedDatesModel, AppointmentResponseModel } from '@/domain/models/appointment'
-import { LoadAppointmentById } from '@/domain/usecases/appointment/load-appointment-by-id'
-import { LoadAppointments } from '@/domain/usecases/appointment/load-appointments'
-import { DeleteAppointment } from '@/domain/usecases/appointment/delete-appointment'
-import { LoadRestrictedDates } from '@/domain/usecases/appointment/load-restricted-dates'
+import { AddAppointment, AddAppointmentParams, EditAppointment, EditAppointmentParams, LoadAppointmentById, LoadAppointments, DeleteAppointment, LoadRestrictedDates } from '@/domain/usecases/appointment'
+import { AppointmentModel, RestrictedDatesModel, AppointmentResponseModel } from '@/domain/models'
 
 export const mockAddAppointment = (): AddAppointment => {
   class AddAppointmentStub implements AddAppointment {

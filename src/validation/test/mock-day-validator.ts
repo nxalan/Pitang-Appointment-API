@@ -1,6 +1,6 @@
-import { AppointmentModel } from '@/domain/models/appointment'
+import { AppointmentModel } from '@/domain/models'
 import { mockListOfEditAppointmentParamsWithDifferentHours } from '@/domain/test'
-import { LoadAppointmentsByDay } from '@/domain/usecases/appointment/load-appointments-by-day'
+import { LoadAppointmentsByDay } from '@/domain/usecases/appointment'
 
 export const mockLoadAppointmentsByDay = (): LoadAppointmentsByDay => {
   class LoadAppointmentsByDayStub implements LoadAppointmentsByDay {

@@ -1,5 +1,5 @@
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, LoadRestrictedDates } from './load-restricted-dates-controller-protocols'
+import { Controller, HttpRequest, HttpResponse, LoadRestrictedDates } from '.'
 
 export class LoadRestrictedDatesController implements Controller {
   constructor (private readonly loadRestrictedDates: LoadRestrictedDates) {}

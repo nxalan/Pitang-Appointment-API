@@ -74,7 +74,7 @@ describe('Add Appointment Controller', () => {
     const validatespy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest)
   })
 
   test('Should return 400 if Validation returns an error', async () => {

@@ -1,4 +1,4 @@
-import { LoadRestrictedDaysAndHoursRepository } from './db-load-restricted-dates-protocols'
+import { LoadRestrictedDaysAndHoursRepository } from '.'
 import { DbLoadRestrictedDates } from './db-load-restricted-dates'
 import MockDate from 'mockdate'
 import { mockRestrictedDatesModel, throwError } from '@/domain/test'

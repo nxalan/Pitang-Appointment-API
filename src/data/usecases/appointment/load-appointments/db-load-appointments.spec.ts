@@ -1,7 +1,7 @@
-import { LoadAppointmentsRepository } from './db-load-appointments-protocols'
+import { LoadAppointmentsRepository } from '.'
 import { DbLoadAppointments } from './db-load-appointments'
 import MockDate from 'mockdate'
-import { mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, throwError } from '@/domain/test'
+import { mockAppointmentModels, throwError } from '@/domain/test'
 import { mockLoadAppointmentsRepository } from '@/data/test'
 
 type SutTypes = {

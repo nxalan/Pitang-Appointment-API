@@ -1,3 +1,3 @@
-export * from '@/domain/models/appointment'
-export * from '@/domain/usecases/appointment/load-appointments-by-day'
-export * from '@/data/protocols/db/appointment/load-appointments-by-day-repository'
+export * from '@/domain/models'
+export * from '@/domain/usecases/appointment'
+export * from '@/data/protocols/db/appointment'

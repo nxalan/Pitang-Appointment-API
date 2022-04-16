@@ -1,10 +1,14 @@
-import { ValidationComposite, DateValidation, DayValidation, HourValidation } from '@/validation/validators'
-import { Validation } from '@/presentation/protocols/validation'
-import { makeDbLoadAppointmentsByDay } from '@/main/factories/usecases/appointment/load-appointments-by-day/db-load-appointments-by-day-factory'
-import { makeDbLoadAppointmentsByHour } from '@/main/factories/usecases/appointment/load-appointments-by-hour/db-load-appointments-by-hour-factory'
+import { ValidationComposite, DateValidation, DayValidation, HourValidation, IdValidation } from '@/validation/validators'
+import { Validation } from '@/presentation/protocols'
+import { makeDbLoadAppointmentsByDay, makeDbLoadAppointmentsByHour } from '@/main/factories/usecases/appointment'
 
 export const makeEditAppointmentValidation = (): ValidationComposite => {
   const validations: Validation[] = []
+
+  for (const field of ['id']) {
+    validations.push(new IdValidation(field))
+  }
+
   for (const field of ['birthday', 'appointment_date']) {
     validations.push(new DateValidation(field))
   }

@@ -1,5 +1,5 @@
 import { ValidationComposite, IdValidation } from '@/validation/validators'
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 
 export const makeLoadByIdAppointmentValidation = (): ValidationComposite => {
   const validations: Validation[] = []

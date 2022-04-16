@@ -1,8 +1,7 @@
 import { RequiredFieldValidation, ValidationComposite, DateValidation, DayValidation, HourValidation } from '@/validation/validators'
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 import { makeAddAppointmentValidation } from './add-appointment-validation-factory'
-import { makeDbLoadAppointmentsByDay } from '@/main/factories/usecases/appointment/load-appointments-by-day/db-load-appointments-by-day-factory'
-import { makeDbLoadAppointmentsByHour } from '@/main/factories/usecases/appointment/load-appointments-by-hour/db-load-appointments-by-hour-factory'
+import { makeDbLoadAppointmentsByDay, makeDbLoadAppointmentsByHour } from '@/main/factories/usecases/appointment'
 
 jest.mock('@/validation/validators/validation-composite')
 

@@ -1,5 +1,5 @@
 import { DayValidation } from './day-validation'
-import { LoadAppointmentsByDay } from '@/domain/usecases/appointment/load-appointments-by-day'
+import { LoadAppointmentsByDay } from '@/domain/usecases/appointment'
 import { InvalidParamError } from '@/presentation/errors'
 import { mockLoadAppointmentsByDay } from '@/validation/test'
 import MockDate from 'mockdate'
@@ -28,6 +28,12 @@ describe('Day Validation', () => {
     MockDate.reset()
   })
 
+  test('Should mockLoadAppointmentsByDay return the correct values', async () => {
+    const { loadAppointmentsByDayStub } = makeSut()
+    const mockLoadAppointmentsByDay = await loadAppointmentsByDayStub.loadByDay(null as any)
+    expect(mockLoadAppointmentsByDay.length).toEqual(20)
+  })
+
   test('Should return if date is not defined', async () => {
     const { sut } = makeSut()
     const response = await sut.validate({ appointment_date: undefined })
@@ -38,7 +44,7 @@ describe('Day Validation', () => {
     const { sut, loadAppointmentsByDayStub } = makeSut()
     jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParamsWithDifferentHours(20)))
     const response = await sut.validate({ appointment_date: new Date(new Date().setDate(new Date().getDate() + 1)) })
-    expect(response).toEqual(new InvalidParamError('appointment_date, the chosen day is already full'))
+    expect(response).toEqual(new InvalidParamError('appointment_date day, the chosen day is already full'))
   })
 
   test('Should return if date is a valid day', async () => {

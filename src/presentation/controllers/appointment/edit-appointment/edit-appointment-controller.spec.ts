@@ -71,7 +71,7 @@ describe('Edit Appointment Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  test('Should call EditAppointment with correct values', async () => {
+  test('Should call EditAppointment with correct values if all values is provided', async () => {
     const { sut, editAppointmentStub } = makeSut()
     const addSpy = jest.spyOn(editAppointmentStub, 'edit')
     await sut.handle(mockRequest())
@@ -80,6 +80,25 @@ describe('Edit Appointment Controller', () => {
       name: 'any_name',
       birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 20)),
       appointment_date: new Date(new Date().setDate(new Date().getDate() + 1))
+    })
+  })
+
+  test('Should call EditAppointment with correct values if only the id is provided', async () => {
+    const { sut, editAppointmentStub } = makeSut()
+    const addSpy = jest.spyOn(editAppointmentStub, 'edit')
+    await sut.handle(
+      {
+        params: {
+          id: 'any_appointment_id'
+        }
+      })
+    expect(addSpy).toHaveBeenCalledWith({
+      id: 'any_appointment_id',
+      name: undefined,
+      birthday: undefined,
+      appointment_date: undefined,
+      status: undefined,
+      status_comment: undefined
     })
   })
 
@@ -103,7 +122,7 @@ describe('Edit Appointment Controller', () => {
     const validatespy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest)
   })
 
   test('Should return 400 if Validation returns an error', async () => {

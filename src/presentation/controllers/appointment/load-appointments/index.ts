@@ -1,3 +1,3 @@
+export * from '@/presentation/protocols'
 export * from '@/domain/usecases/appointment'
 export * from '@/domain/models'
-export * from '@/data/protocols/db/appointment'

@@ -1,5 +1,5 @@
 import { ValidationComposite, IdValidation } from '@/validation/validators'
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 import { makeLoadByIdAppointmentValidation } from './load-appointment-by-id-validation-factory'
 
 jest.mock('@/validation/validators/validation-composite')

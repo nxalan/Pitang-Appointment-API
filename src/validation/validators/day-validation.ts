@@ -1,6 +1,7 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { Validation } from '@/presentation/protocols/validation'
-import { LoadAppointmentsByDay } from '@/domain/usecases/appointment/load-appointments-by-day'
+import { Validation } from '@/presentation/protocols'
+import { LoadAppointmentsByDay } from '@/domain/usecases/appointment'
+
 export class DayValidation implements Validation {
   constructor (
     private readonly fieldName: string,
@@ -17,7 +18,7 @@ export class DayValidation implements Validation {
       isValid = false
     }
     if (!isValid) {
-      return new InvalidParamError(`${this.fieldName}, the chosen day is already full`)
+      return new InvalidParamError(`${this.fieldName} day, the chosen day is already full`)
     }
   }
 }

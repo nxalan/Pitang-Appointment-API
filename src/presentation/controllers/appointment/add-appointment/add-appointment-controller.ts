@@ -9,7 +9,7 @@ export class AddAppointmentController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = await this.validation.validate(httpRequest.body)
+      const error = await this.validation.validate(httpRequest)
       if (error) {
         return badRequest(error)
       }

@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, DeleteAppointment, LoadAppointmentById, Validation } from './delete-appointment-controller-protocols'
+import { Controller, HttpRequest, HttpResponse, DeleteAppointment, LoadAppointmentById, Validation } from '.'
 
 export class DeleteAppointmentController implements Controller {
   constructor (
@@ -12,7 +12,7 @@ export class DeleteAppointmentController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const id = httpRequest.params.id
-      const error = await this.validation.validate(httpRequest.params)
+      const error = await this.validation.validate(httpRequest)
       if (error) {
         return badRequest(error)
       }

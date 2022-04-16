@@ -1,5 +1,5 @@
 import { DeleteAppointmentController } from './delete-appointment-controller'
-import { HttpRequest, DeleteAppointment, LoadAppointmentById, Validation } from './delete-appointment-controller-protocols'
+import { HttpRequest, DeleteAppointment, LoadAppointmentById, Validation } from '.'
 import MockDate from 'mockdate'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockAppointmentModel, throwError } from '@/domain/test'
@@ -82,7 +82,7 @@ describe('DeleteAppointment Controller', () => {
     const validatespy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validatespy).toHaveBeenCalledWith(httpRequest.params)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest)
   })
 
   test('Should return 400 if Validation returns an error', async () => {

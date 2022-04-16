@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 import { ObjectId } from 'mongodb'
 
 export class IdValidation implements Validation {

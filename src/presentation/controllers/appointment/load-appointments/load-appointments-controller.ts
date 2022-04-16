@@ -1,5 +1,5 @@
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, LoadAppointments } from './load-appointments-controller-protocols'
+import { Controller, HttpRequest, HttpResponse, LoadAppointments } from '.'
 
 export class LoadAppointmentsController implements Controller {
   constructor (private readonly loadAppointments: LoadAppointments) {}

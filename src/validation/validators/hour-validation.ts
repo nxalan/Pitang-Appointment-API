@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { Validation } from '@/presentation/protocols/validation'
-import { LoadAppointmentsByHour } from '@/domain/usecases/appointment/load-appointments-by-hour'
+import { Validation } from '@/presentation/protocols'
+import { LoadAppointmentsByHour } from '@/domain/usecases/appointment'
 
 export class HourValidation implements Validation {
   constructor (
@@ -18,7 +18,7 @@ export class HourValidation implements Validation {
       isValid = false
     }
     if (!isValid) {
-      return new InvalidParamError(`${this.fieldName}, the chosen hour is already full`)
+      return new InvalidParamError(`${this.fieldName} hour, the chosen hour is already full`)
     }
   }
 }
