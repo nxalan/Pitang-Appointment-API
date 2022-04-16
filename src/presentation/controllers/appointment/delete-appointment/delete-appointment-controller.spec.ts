@@ -1,10 +1,10 @@
 import { DeleteAppointmentController } from './delete-appointment-controller'
-import { HttpRequest, DeleteAppointment, LoadAppointmentById } from './delete-appointment-controller-protocols'
+import { HttpRequest, DeleteAppointment, LoadAppointmentById, Validation } from './delete-appointment-controller-protocols'
 import MockDate from 'mockdate'
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockAppointmentModel, throwError } from '@/domain/test'
-import { mockLoadAppointmentById, mockDeleteAppointment } from '@/presentation/test'
-import { InvalidParamError, ServerError } from '@/presentation/errors'
+import { mockLoadAppointmentById, mockDeleteAppointment, mockValidation } from '@/presentation/test'
+import { InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
 
 const mockRequest = (): HttpRequest => ({
   params: {
@@ -15,16 +15,19 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: DeleteAppointmentController
   loadAppointmentByIdStub: LoadAppointmentById
+  validationStub: Validation
   deleteAppointmentStub: DeleteAppointment
 }
 
 const makeSut = (): SutTypes => {
   const deleteAppointmentStub = mockDeleteAppointment()
+  const validationStub = mockValidation()
   const loadAppointmentByIdStub = mockLoadAppointmentById()
-  const sut = new DeleteAppointmentController(deleteAppointmentStub, loadAppointmentByIdStub)
+  const sut = new DeleteAppointmentController(deleteAppointmentStub, validationStub, loadAppointmentByIdStub)
   return {
     sut,
     deleteAppointmentStub,
+    validationStub,
     loadAppointmentByIdStub
   }
 }
@@ -72,5 +75,20 @@ describe('DeleteAppointment Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(ok(mockAppointmentModel()))
+  })
+
+  test('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validatespy = jest.spyOn(validationStub, 'validate')
+    const httpRequest = mockRequest()
+    await sut.handle(httpRequest)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest.params)
+  })
+
+  test('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new MissingParamError('any field')))
+    const httpRequest = await sut.handle(mockRequest())
+    expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
   })
 })
