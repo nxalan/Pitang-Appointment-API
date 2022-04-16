@@ -1,12 +1,12 @@
 import { ValidationComposite, IdValidation } from '@/validation/validators'
 import { Validation } from '@/presentation/protocols/validation'
-import { makeDeleteAppointmentValidation } from './delete-appointment-validation-factory'
+import { makeLoadByIdAppointmentValidation } from './load-appointment-by-id-validation-factory'
 
 jest.mock('@/validation/validators/validation-composite')
 
-describe('DeleteAppointmentValidation Factory', () => {
+describe('LoadByIdAppointmentValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
-    makeDeleteAppointmentValidation()
+    makeLoadByIdAppointmentValidation()
     const validations: Validation[] = []
     for (const field of ['id']) {
       validations.push(new IdValidation(field))
