@@ -1,6 +1,6 @@
 import { AddAppointmentRepository } from '.'
 import { DbAddAppointment } from './db-add-appointment'
-import { mockAddAppointmentParams, mockAppointmentModel, throwError } from '@/domain/test'
+import { mockAddAppointmentParams, mockAppointmentModel, mockAppointmentResponseModel, throwError } from '@/domain/test'
 import { mockAddAppointmentRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
@@ -46,10 +46,10 @@ describe('DbAddAppointment Usecase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an appointment on success', async () => {
+  test('Should return an appointment id on success', async () => {
     const { sut } = makeSut()
     const appointment = await sut.add(mockAddAppointmentParams())
-    expect(appointment).toEqual(mockAppointmentModel())
+    expect(appointment).toEqual(mockAppointmentResponseModel())
   })
 
   test('Should call addAppointmentRepositoryStub with birthday and appointment_date on ISOString format', async () => {

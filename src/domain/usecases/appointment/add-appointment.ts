@@ -1,4 +1,4 @@
-import { AppointmentModel } from '@/domain/models/appointment'
+import { AppointmentResponseModel } from '@/domain/models/appointment'
 
 export type AddAppointmentParams = {
   name: string
@@ -7,5 +7,5 @@ export type AddAppointmentParams = {
 }
 
 export interface AddAppointment {
-  add (appointment: AddAppointmentParams): Promise<AppointmentModel>
+  add (appointment: AddAppointmentParams): Promise<AppointmentResponseModel>
 }

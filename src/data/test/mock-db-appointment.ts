@@ -1,17 +1,12 @@
-import { mockAppointmentModel, mockAppointmentModels, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours } from '@/domain/test'
-import { AddAppointmentRepository, EditAppointmentRepository } from '@/data/protocols/db/appointment'
-import { AppointmentModel, AddAppointmentParams, LoadAppointmentByNameRepository } from '@/data/usecases/appointment/add-appointment'
+import { mockAppointmentModel, mockAppointmentModels, mockAppointmentResponseModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, mockRestrictedDatesModel, mockRestrictedDayModel, mockRestrictedHourModel } from '@/domain/test'
+import { AddAppointmentRepository, EditAppointmentRepository, DeleteAppointmentRepository, LoadAppointmentsByHourRepository, LoadAppointmentsByDayRepository, LoadAppointmentByIdRepository, LoadAppointmentsRepository, LoadRestrictedDatesDataModel, LoadRestrictedDaysAndHoursRepository } from '@/data/protocols/db/appointment'
+import { AppointmentResponseModel, AppointmentModel, AddAppointmentParams, RestrictedDatesModel } from '@/data/usecases/appointment/add-appointment'
 import { EditAppointmentParams } from '@/data/usecases/appointment/edit-appointment'
-import { LoadAppointmentByIdRepository } from '@/data/usecases/appointment/load-appointment-by-id'
-import { LoadAppointmentsByDayRepository } from '@/data/usecases/appointment/load-appointments-by-day'
-import { LoadAppointmentsByHourRepository } from '@/data/usecases/appointment/load-appointments-by-hour'
-import { LoadAppointmentsRepository } from '@/data/protocols/db/appointment/load-appointments-repository'
-import { DeleteAppointmentRepository } from '@/data/protocols/db/appointment/delete-appointment-repository'
 
 export const mockAddAppointmentRepository = (): AddAppointmentRepository => {
   class AddAppointmentRepositoryStub implements AddAppointmentRepository {
-    async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
-      return new Promise(resolve => resolve(mockAppointmentModel()))
+    async add (appointmentData: AddAppointmentParams): Promise<AppointmentResponseModel> {
+      return new Promise(resolve => resolve(mockAppointmentResponseModel()))
     }
   }
   return new AddAppointmentRepositoryStub()
@@ -24,15 +19,6 @@ export const mockEditAppointmentRepository = (): EditAppointmentRepository => {
     }
   }
   return new EditAppointmentRepositoryStub()
-}
-
-export const mockLoadAppointmentByNameRepository = (): LoadAppointmentByNameRepository => {
-  class LoadAppointmentByNameRepositoryStub implements LoadAppointmentByNameRepository {
-    async loadByName (name: string): Promise<AppointmentModel> {
-      return new Promise(resolve => resolve(mockAppointmentModel()))
-    }
-  }
-  return new LoadAppointmentByNameRepositoryStub()
 }
 
 export const mockLoadAppointmentByIdRepository = (): LoadAppointmentByIdRepository => {
@@ -78,4 +64,31 @@ export const mockDeleteAppointmentRepository = (): DeleteAppointmentRepository =
     }
   }
   return new DeleteAppointmentRepositoryStub()
+}
+
+export const mockLoadRestrictedDatesRepository = (): LoadRestrictedDatesDataModel => {
+  class LoadRestrictedDatesRepositoryStub implements LoadRestrictedDatesDataModel {
+    async load (): Promise<RestrictedDatesModel> {
+      return new Promise(resolve => resolve(mockRestrictedDatesModel()))
+    }
+  }
+  return new LoadRestrictedDatesRepositoryStub()
+}
+
+export const mockLoadRestrictedDayRepository = (): LoadRestrictedDaysAndHoursRepository => {
+  class LoadRestrictedDayRepositoryStub implements LoadRestrictedDaysAndHoursRepository {
+    async load (dateType: string, ammount: number): Promise<string[]> {
+      return new Promise(resolve => resolve(mockRestrictedDayModel()))
+    }
+  }
+  return new LoadRestrictedDayRepositoryStub()
+}
+
+export const mockLoadRestrictedHourRepository = (): LoadRestrictedDaysAndHoursRepository => {
+  class LoadRestrictedHourRepositoryStub implements LoadRestrictedDaysAndHoursRepository {
+    async load (dateType: string, ammount: number): Promise<string[]> {
+      return new Promise(resolve => resolve(mockRestrictedHourModel()))
+    }
+  }
+  return new LoadRestrictedHourRepositoryStub()
 }

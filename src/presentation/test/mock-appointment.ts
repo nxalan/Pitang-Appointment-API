@@ -1,15 +1,16 @@
-import { mockAppointmentModel, mockAppointmentModels } from '@/domain/test'
+import { mockAppointmentModel, mockAppointmentModels, mockRestrictedDatesModel, mockAppointmentResponseModel } from '@/domain/test'
 import { AddAppointment, AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { EditAppointment, EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
-import { AppointmentModel } from '@/domain/models/appointment'
+import { AppointmentModel, RestrictedDatesModel, AppointmentResponseModel } from '@/domain/models/appointment'
 import { LoadAppointmentById } from '@/domain/usecases/appointment/load-appointment-by-id'
 import { LoadAppointments } from '@/domain/usecases/appointment/load-appointments'
 import { DeleteAppointment } from '@/domain/usecases/appointment/delete-appointment'
+import { LoadRestrictedDates } from '@/domain/usecases/appointment/load-restricted-dates'
 
 export const mockAddAppointment = (): AddAppointment => {
   class AddAppointmentStub implements AddAppointment {
-    async add (appointment: AddAppointmentParams): Promise<AppointmentModel> {
-      return new Promise(resolve => resolve(mockAppointmentModel()))
+    async add (appointment: AddAppointmentParams): Promise<AppointmentResponseModel> {
+      return new Promise(resolve => resolve(mockAppointmentResponseModel()))
     }
   }
   return new AddAppointmentStub()
@@ -49,4 +50,13 @@ export const mockDeleteAppointment = (): DeleteAppointment => {
     }
   }
   return new DeleteAppointmentStub()
+}
+
+export const mockLoadRestrictedDates = (): LoadRestrictedDates => {
+  class LoadRestrictedDatesStub implements LoadRestrictedDates {
+    async load (): Promise<RestrictedDatesModel> {
+      return new Promise(resolve => resolve(mockRestrictedDatesModel()))
+    }
+  }
+  return new LoadRestrictedDatesStub()
 }

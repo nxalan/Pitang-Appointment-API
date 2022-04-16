@@ -1,4 +1,4 @@
-import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentByNameRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository } from '@/data/protocols/db/appointment'
+import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository } from '@/data/protocols/db/appointment'
 import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
 import { AppointmentModel } from '@/domain/models/appointment'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
@@ -6,11 +6,12 @@ import { ObjectId } from 'mongodb'
 import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { endOfDay, endOfHour, startOfDay, startOfHour } from 'date-fns'
 
-export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByNameRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository {
+export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository {
   async add (appointmentData: AddAppointmentParams): Promise<AppointmentModel> {
     const appointmentCollection = await MongoHelper.getCollection('appointments')
     const result = await appointmentCollection.insertOne(appointmentData)
-    return MongoHelper.map(result.ops[0])
+    const resultOnlyId = { _id: result.insertedId.toString() }
+    return MongoHelper.map(resultOnlyId)
   }
 
   async edit (appointmentData: EditAppointmentParams): Promise<AppointmentModel> {
@@ -29,12 +30,6 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
       })
       return result.value && MongoHelper.map(result.value)
     }
-  }
-
-  async loadByName (name: string): Promise<AppointmentModel> {
-    const appointmentCollection = await MongoHelper.getCollection('appointments')
-    const appointment = await appointmentCollection.findOne({ name })
-    return appointment && MongoHelper.map(appointment)
   }
 
   async loadById (id: string): Promise<AppointmentModel> {
@@ -67,5 +62,36 @@ export class AppointmentMongoRepository implements AddAppointmentRepository, Edi
     const appointmentsCollection = await MongoHelper.getCollection('appointments')
     const appointment = await appointmentsCollection.findOneAndDelete({ _id: new ObjectId(id) })
     return appointment && appointment.value && MongoHelper.map(appointment.value)
+  }
+
+  async load (dateType: string, ammount: number): Promise<string[]> {
+    const appointmentsCollection = await MongoHelper.getCollection('appointments')
+    const restrictedDates = appointmentsCollection.aggregate([
+      {
+        $group: {
+          _id: {
+            $dateTrunc: {
+              date: { $toDate: '$appointment_date' },
+              unit: dateType
+            }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $match: {
+          count: { $gte: ammount }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          appointment_date: '$_id'
+        }
+      }
+    ])
+    const invalidDates = await restrictedDates.toArray()
+    const invalidDatesList = invalidDates.map((cb) => cb.appointment_date)
+    return invalidDatesList
   }
 }

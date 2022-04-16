@@ -33,6 +33,7 @@ describe('Appointment Routes', () => {
     test('Should return 200 on add-appointment', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       expect(storedAppointment.statusCode).toBe(200)
+      expect(storedAppointment.body.id).toBeTruthy()
     })
     test('Should return 400 on create-appointment if selected appointment_date day is full', async () => {
       await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
@@ -118,6 +119,17 @@ describe('Appointment Routes', () => {
       const response = await request(app).get(`/api/appointment/${id}`)
       expect(response.statusCode).toBe(200)
       expect(response.body.name).toBe('any_name')
+    })
+  })
+  describe('GET /appointment/restricted-dates', () => {
+    test('Should return an list of restricted days and hours on success', async () => {
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
+      await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(2))
+      const response = await request(app).get('/api/appointments/restricted-dates')
+      expect(response.statusCode).toBe(200)
+      expect(response.body.restrictedDays.length).toBe(1)
+      expect(response.body.restrictedHours.length).toBe(1)
+      expect(response.statusCode).toBe(200)
     })
   })
 })
