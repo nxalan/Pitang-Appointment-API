@@ -1,5 +1,5 @@
 import { LoadRestrictedDatesController } from './load-restricted-dates-controller'
-import { LoadRestrictedDates } from './load-restricted-dates-controller-protocols'
+import { LoadRestrictedDates } from '.'
 import MockDate from 'mockdate'
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockRestrictedDatesModel, throwError } from '@/domain/test'

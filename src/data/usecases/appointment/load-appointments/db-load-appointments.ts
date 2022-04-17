@@ -1,4 +1,4 @@
-import { AppointmentModel, LoadAppointments, LoadAppointmentsRepository } from './db-load-appointments-protocols'
+import { AppointmentModel, LoadAppointments, LoadAppointmentsRepository } from '.'
 
 export class DbLoadAppointments implements LoadAppointments {
   constructor (private readonly loadAppointmentsRepository: LoadAppointmentsRepository) {}

@@ -1,9 +1,8 @@
 import { AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository } from '@/data/protocols/db/appointment'
-import { AddAppointmentParams } from '@/domain/usecases/appointment/add-appointment'
-import { AppointmentModel } from '@/domain/models/appointment'
+import { AddAppointmentParams, EditAppointmentParams } from '@/domain/usecases/appointment'
+import { AppointmentModel } from '@/domain/models'
 import { MongoHelper } from '@/infra/db/helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
-import { EditAppointmentParams } from '@/domain/usecases/appointment/edit-appointment'
 import { endOfDay, endOfHour, startOfDay, startOfHour } from 'date-fns'
 
 export class AppointmentMongoRepository implements AddAppointmentRepository, EditAppointmentRepository, LoadAppointmentByIdRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository, LoadAppointmentsRepository, LoadRestrictedDaysAndHoursRepository {

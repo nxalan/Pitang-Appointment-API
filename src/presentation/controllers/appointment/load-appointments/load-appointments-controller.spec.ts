@@ -1,5 +1,5 @@
 import { LoadAppointmentsController } from './load-appointments-controller'
-import { LoadAppointments } from './load-appointments-controller-protocols'
+import { LoadAppointments } from '.'
 import MockDate from 'mockdate'
 import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockAppointmentModels, throwError } from '@/domain/test'

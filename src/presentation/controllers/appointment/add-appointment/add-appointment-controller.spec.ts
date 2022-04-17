@@ -2,7 +2,7 @@ import { HttpRequest, AddAppointment, Validation } from '.'
 import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAppointmentController } from './add-appointment-controller'
 import { mockAddAppointment, mockValidation } from '@/presentation/test'
-import { MissingParamError, NameInUseError, ServerError } from '@/presentation/errors'
+import { MissingParamError, ServerError } from '@/presentation/errors'
 import { mockAppointmentResponseModel } from '@/domain/test'
 import MockDate from 'mockdate'
 
@@ -74,7 +74,7 @@ describe('Add Appointment Controller', () => {
     const validatespy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validatespy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validatespy).toHaveBeenCalledWith(httpRequest)
   })
 
   test('Should return 400 if Validation returns an error', async () => {

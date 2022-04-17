@@ -66,15 +66,6 @@ export const mockDeleteAppointmentRepository = (): DeleteAppointmentRepository =
   return new DeleteAppointmentRepositoryStub()
 }
 
-export const mockLoadRestrictedDatesRepository = (): LoadRestrictedDatesDataModel => {
-  class LoadRestrictedDatesRepositoryStub implements LoadRestrictedDatesDataModel {
-    async load (): Promise<RestrictedDatesModel> {
-      return new Promise(resolve => resolve(mockRestrictedDatesModel()))
-    }
-  }
-  return new LoadRestrictedDatesRepositoryStub()
-}
-
 export const mockLoadRestrictedDayRepository = (): LoadRestrictedDaysAndHoursRepository => {
   class LoadRestrictedDayRepositoryStub implements LoadRestrictedDaysAndHoursRepository {
     async load (dateType: string, ammount: number): Promise<string[]> {

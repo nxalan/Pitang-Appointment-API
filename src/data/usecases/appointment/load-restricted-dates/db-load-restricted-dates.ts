@@ -1,4 +1,4 @@
-import { RestrictedDatesModel, LoadRestrictedDates, LoadRestrictedDaysAndHoursRepository } from './db-load-restricted-dates-protocols'
+import { RestrictedDatesModel, LoadRestrictedDates, LoadRestrictedDaysAndHoursRepository } from '.'
 
 export class DbLoadRestrictedDates implements LoadRestrictedDates {
   constructor (
