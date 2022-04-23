@@ -1,4 +1,3 @@
-
 import { MongoClient, Collection } from 'mongodb'
 
 export const MongoHelper = {
