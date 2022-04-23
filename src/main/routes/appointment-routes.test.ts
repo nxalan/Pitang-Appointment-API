@@ -35,10 +35,10 @@ describe('Appointment Routes', () => {
       expect(storedAppointment.statusCode).toBe(200)
       expect(storedAppointment.body.id).toBeTruthy()
     })
-    test('Should return 400 on create-appointment if selected appointment_date day is full', async () => {
+    test('Should return 403 on create-appointment if selected appointment_date day is full', async () => {
       await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithDifferentHours(20))
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
-      expect(storedAppointment.statusCode).toBe(400)
+      expect(storedAppointment.statusCode).toBe(403)
     })
 
     test('Should return 200 on create-appointment if selected appointment_date day is not full', async () => {
@@ -47,10 +47,10 @@ describe('Appointment Routes', () => {
       expect(storedAppointment.statusCode).toBe(200)
     })
 
-    test('Should return 400 on create-appointment if selected appointment_date hour is full', async () => {
+    test('Should return 403 on create-appointment if selected appointment_date hour is full', async () => {
       await appointmentCollection.insertMany(mockListOfEditAppointmentParamsWithSameHours(2))
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
-      expect(storedAppointment.statusCode).toBe(400)
+      expect(storedAppointment.statusCode).toBe(403)
     })
 
     test('Should return 200 on create-appointment if selected appointment_date hour is not full', async () => {

@@ -4,7 +4,7 @@ import { AppointmentModel, RestrictedDatesModel, AppointmentResponseModel } from
 
 export const mockAddAppointment = (): AddAppointment => {
   class AddAppointmentStub implements AddAppointment {
-    async add (appointment: AddAppointmentParams): Promise<AppointmentResponseModel> {
+    async add (appointment: AddAppointmentParams): Promise<Error | AppointmentResponseModel> {
       return new Promise(resolve => resolve(mockAppointmentResponseModel()))
     }
   }
@@ -13,7 +13,7 @@ export const mockAddAppointment = (): AddAppointment => {
 
 export const mockEditAppointment = (): EditAppointment => {
   class EditAppointmentStub implements EditAppointment {
-    async edit (appointment: EditAppointmentParams): Promise<AppointmentModel> {
+    async edit (appointment: EditAppointmentParams): Promise<Error | AppointmentModel> {
       return new Promise(resolve => resolve(mockAppointmentModel()))
     }
   }

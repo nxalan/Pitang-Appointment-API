@@ -11,7 +11,7 @@ import { DbLoadRestrictedDates } from '@/data/usecases/appointment/load-restrict
 
 export const makeDbAddAppointment = (): AddAppointment => {
   const appointmentMongoRepository = new AppointmentMongoRepository()
-  return new DbAddAppointment(appointmentMongoRepository)
+  return new DbAddAppointment(appointmentMongoRepository, appointmentMongoRepository, appointmentMongoRepository)
 }
 
 export const makeDbDeleteAppointment = (): DeleteAppointment => {
@@ -21,7 +21,7 @@ export const makeDbDeleteAppointment = (): DeleteAppointment => {
 
 export const makeDbEditAppointment = (): EditAppointment => {
   const appointmentMongoRepository = new AppointmentMongoRepository()
-  return new DbEditAppointment(appointmentMongoRepository)
+  return new DbEditAppointment(appointmentMongoRepository, appointmentMongoRepository, appointmentMongoRepository)
 }
 
 export const makeDbLoadAppointmentById = (): LoadAppointmentById => {

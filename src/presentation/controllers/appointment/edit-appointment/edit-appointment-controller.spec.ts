@@ -131,4 +131,11 @@ describe('Edit Appointment Controller', () => {
     const httpRequest = await sut.handle(mockRequest())
     expect(httpRequest).toEqual(badRequest(new MissingParamError('any field')))
   })
+
+  test('Should return 403 if EditAppointment data is provided', async () => {
+    const { sut, editAppointmentStub } = makeSut()
+    jest.spyOn(editAppointmentStub, 'edit').mockReturnValueOnce(Promise.resolve(new InvalidParamError('any field')))
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('any field')))
+  })
 })

@@ -16,7 +16,7 @@ export type EditAppointmentParams = {
 }
 
 export interface AddAppointment {
-  add (appointment: AddAppointmentParams): Promise<AppointmentResponseModel>
+  add (appointment: AddAppointmentParams): Promise<Error | AppointmentResponseModel>
 }
 
 export interface DeleteAppointment {
@@ -24,7 +24,7 @@ export interface DeleteAppointment {
 }
 
 export interface EditAppointment {
-  edit (appointment: EditAppointmentParams): Promise<AppointmentModel>
+  edit (appointment: EditAppointmentParams): Promise<Error | AppointmentModel>
 }
 
 export interface LoadAppointmentById {

@@ -1,20 +1,26 @@
-import { AddAppointmentRepository } from '.'
+import { AddAppointmentRepository, LoadAppointmentsByDayRepository, LoadAppointmentsByHourRepository } from '.'
 import { DbAddAppointment } from './db-add-appointment'
-import { mockAddAppointmentParams, mockAppointmentModel, mockAppointmentResponseModel, throwError } from '@/domain/test'
-import { mockAddAppointmentRepository } from '@/data/test'
+import { mockAddAppointmentParams, mockAppointmentModel, mockAppointmentResponseModel, mockListOfEditAppointmentParamsWithDifferentHours, mockListOfEditAppointmentParamsWithSameHours, throwError } from '@/domain/test'
+import { mockAddAppointmentRepository, mockLoadAppointmentsByDayRepository, mockLoadAppointmentsByHourRepository } from '@/data/test'
 import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DbAddAppointment
   addAppointmentRepositoryStub: AddAppointmentRepository
+  loadAppointmentsByDayStub: LoadAppointmentsByDayRepository
+  loadAppointmentsByHourStub: LoadAppointmentsByHourRepository
 }
 
 const makeSut = (): SutTypes => {
   const addAppointmentRepositoryStub = mockAddAppointmentRepository()
-  const sut = new DbAddAppointment(addAppointmentRepositoryStub)
+  const loadAppointmentsByDayStub = mockLoadAppointmentsByDayRepository()
+  const loadAppointmentsByHourStub = mockLoadAppointmentsByHourRepository()
+  const sut = new DbAddAppointment(addAppointmentRepositoryStub, loadAppointmentsByDayStub, loadAppointmentsByHourStub)
   return {
     sut,
-    addAppointmentRepositoryStub
+    addAppointmentRepositoryStub,
+    loadAppointmentsByDayStub,
+    loadAppointmentsByHourStub
   }
 }
 
@@ -64,5 +70,33 @@ describe('DbAddAppointment Usecase', () => {
     const appointmentModelWithoutId: any = mockAppointmentModel()
     delete appointmentModelWithoutId.id
     expect(addSpy).toHaveBeenCalledWith(appointmentModelWithoutId)
+  })
+
+  test('Should throw if LoadAppointmentsByDayRepository throws', async () => {
+    const { sut, loadAppointmentsByDayStub } = makeSut()
+    jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddAppointmentParams())
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw if LoadAppointmentsByHourRepository throws', async () => {
+    const { sut, loadAppointmentsByHourStub } = makeSut()
+    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddAppointmentParams())
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw if appointment_date day is not available', async () => {
+    const { sut, loadAppointmentsByDayStub } = makeSut()
+    jest.spyOn(loadAppointmentsByDayStub, 'loadByDay').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParamsWithDifferentHours(20)))
+    const promise = sut.add(mockAddAppointmentParams())
+    await expect(promise).resolves.toThrow()
+  })
+
+  test('Should throw if appointment_date hour is not available', async () => {
+    const { sut, loadAppointmentsByHourStub } = makeSut()
+    jest.spyOn(loadAppointmentsByHourStub, 'loadByHour').mockReturnValueOnce(Promise.resolve(mockListOfEditAppointmentParamsWithSameHours(2)))
+    const promise = sut.add(mockAddAppointmentParams())
+    await expect(promise).resolves.toThrow()
   })
 })
