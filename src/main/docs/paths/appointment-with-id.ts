@@ -70,35 +70,5 @@ export const appointmentWithIdPath = {
         $ref: '#/components/serverError'
       }
     }
-  },
-  delete: {
-    tags: ['Agendamentos'],
-    summary: 'API para excluir um agendamento especifico',
-    parameters: [{
-      in: 'path',
-      name: 'id',
-      required: true,
-      schema: {
-        type: 'string'
-      }
-    }],
-    responses: {
-      200: {
-        description: 'Sucesso',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/appointmentWithId'
-            }
-          }
-        }
-      },
-      404: {
-        $ref: '#/components/notFound'
-      },
-      500: {
-        $ref: '#/components/serverError'
-      }
-    }
   }
 }

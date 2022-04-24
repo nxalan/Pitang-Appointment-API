@@ -105,7 +105,7 @@ describe('Appointment Routes', () => {
     test('Should return an appointment on success', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       const { id } = storedAppointment.body
-      const response = await request(app).delete(`/api/appointment/${id}`)
+      const response = await request(app).delete('/api/appointment').send({ id: id })
       expect(response.statusCode).toBe(200)
       expect(response.body.name).toBe('any_name')
       const appointmentsListResponse = await request(app).get('/api/appointments')

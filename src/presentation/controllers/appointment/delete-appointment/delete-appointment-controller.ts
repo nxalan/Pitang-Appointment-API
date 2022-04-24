@@ -11,7 +11,7 @@ export class DeleteAppointmentController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const id = httpRequest.params.id
+      const id = httpRequest.body.id
       const error = await this.validation.validate(httpRequest)
       if (error) {
         return badRequest(error)

@@ -7,7 +7,7 @@ import { mockLoadAppointmentById, mockDeleteAppointment, mockValidation } from '
 import { InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
 
 const mockRequest = (): HttpRequest => ({
-  params: {
+  body: {
     id: 'any_id'
   }
 })
