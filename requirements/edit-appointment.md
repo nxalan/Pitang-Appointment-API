@@ -2,7 +2,7 @@
 
 > ## Caso de sucesso
 
-1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/appointment/appointment_id**
+1. ✅ Recebe uma requisição do tipo **PATCH** na rota **/api/appointment/appointment_id**
 2. ✅ Valida o dado obrigatório **appointment_id**
 3. ✅ Valida se **appointment_id** corresponse a um agendamento com o id fornecido
 4. ✅ Valida se fornecido, **appointment_date** e **birthday** é uma data válida

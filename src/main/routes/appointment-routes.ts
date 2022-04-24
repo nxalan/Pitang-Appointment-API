@@ -13,6 +13,6 @@ export default (router: Router): void => {
   router.get('/appointment/:id', adaptRoute(makeLoadAppointmentByIdController()))
   router.get('/appointments/restricted-dates', adaptRoute(makeLoadRestrictedDatesController()))
   router.post('/appointment', adaptRoute(makeAddAppointmentController()))
-  router.put('/appointment/:id', adaptRoute(makeEditAppointmentController()))
-  router.delete('/appointment', adaptRoute(makeDeleteAppointmentController()))
+  router.patch('/appointment/:id', adaptRoute(makeEditAppointmentController()))
+  router.post('/appointment/delete', adaptRoute(makeDeleteAppointmentController()))
 }

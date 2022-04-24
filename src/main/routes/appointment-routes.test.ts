@@ -60,7 +60,7 @@ describe('Appointment Routes', () => {
     })
   })
 
-  describe('POST /appointment/appointment_id', () => {
+  describe('PATCH /appointment/appointment_id', () => {
     test('Should return 200 on edit-appointment with a valid id', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       const { id } = storedAppointment.body
@@ -71,7 +71,7 @@ describe('Appointment Routes', () => {
         status: 'modified_status',
         status_comment: 'modified_status_comment'
       }
-      const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
+      const response = await request(app).patch(`/api/appointment/${id}`).send(modifiedAppointment)
       expect(response.statusCode).toBe(200)
     })
 
@@ -82,14 +82,14 @@ describe('Appointment Routes', () => {
         status: 'modified_status',
         status_comment: 'modified_status_comment'
       }
-      const response = await request(app).put(`/api/appointment/${id}`).send(modifiedAppointment)
+      const response = await request(app).patch(`/api/appointment/${id}`).send(modifiedAppointment)
       expect(response.statusCode).toBe(200)
     })
 
     test('Should return 200 on edit-appointment with request with no body', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       const { id } = storedAppointment.body
-      const response = await request(app).put(`/api/appointment/${id}`).send()
+      const response = await request(app).patch(`/api/appointment/${id}`).send()
       expect(response.statusCode).toBe(200)
     })
   })
@@ -101,11 +101,11 @@ describe('Appointment Routes', () => {
       expect(response.body.length).toBe(2)
     })
   })
-  describe('DELETE /appointment/appointment_id', () => {
+  describe('POST /appointment/delete', () => {
     test('Should return an appointment on success', async () => {
       const storedAppointment = await request(app).post('/api/appointment').send(mockAppointment())
       const { id } = storedAppointment.body
-      const response = await request(app).delete('/api/appointment').send({ id: id })
+      const response = await request(app).post('/api/appointment/delete').send({ id: id })
       expect(response.statusCode).toBe(200)
       expect(response.body.name).toBe('any_name')
       const appointmentsListResponse = await request(app).get('/api/appointments')

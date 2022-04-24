@@ -1,12 +1,12 @@
-export const appointmentPath = {
+export const appointmentDeletePath = {
   post: {
     tags: ['Agendamentos'],
-    summary: 'API para criar um agendamento',
+    summary: 'API para excluir um agendamento especifico',
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/addAppointmentParams'
+            $ref: '#/schemas/appointmentId'
           }
         }
       }
@@ -17,13 +17,13 @@ export const appointmentPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/appointment'
+              $ref: '#/schemas/appointmentWithId'
             }
           }
         }
       },
-      403: {
-        $ref: '#/components/forbidden'
+      400: {
+        $ref: '#/components/badRequest'
       },
       404: {
         $ref: '#/components/notFound'

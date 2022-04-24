@@ -2,10 +2,10 @@
 
 > ## Caso de sucesso
 
-1. ✅ Recebe uma requisição do tipo **DELETE** na rota **/api/appointment/appointment_id**
-2. ✅ Validase **appointment_id** é um id valido
-3. ✅ Valida se **appointment_id** corresponde a um agendamento com o id fornecido
-4. ✅ Deleta um **appointment** referente ao **appointment_id**
+1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/appointment/delete** com **id** no body da requisição
+2. ✅ Valida se **id** é um id valido
+3. ✅ Valida se **id** corresponde a um agendamento com o id fornecido
+4. ✅ Deleta um **appointment** referente ao **id**
 5. ✅ Retorna **200** com os dados do **appointment** deletado
 
 > ## Exceções

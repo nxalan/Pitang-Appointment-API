@@ -29,7 +29,7 @@ export const appointmentWithIdPath = {
       }
     }
   },
-  put: {
+  patch: {
     tags: ['Agendamentos'],
     summary: 'API para editar um agendamento especifico',
     parameters: [{
@@ -59,6 +59,9 @@ export const appointmentWithIdPath = {
             }
           }
         }
+      },
+      400: {
+        $ref: '#/components/badRequest'
       },
       403: {
         $ref: '#/components/forbidden'
