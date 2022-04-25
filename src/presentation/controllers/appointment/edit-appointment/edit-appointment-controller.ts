@@ -28,6 +28,9 @@ export class EditAppointmentController implements Controller {
         status: httpRequest.body?.status,
         status_comment: httpRequest.body?.status_comment
       })
+      if (appointment instanceof Error) {
+        return forbidden(appointment)
+      }
       return ok(appointment)
     } catch (error) {
       return serverError(error)

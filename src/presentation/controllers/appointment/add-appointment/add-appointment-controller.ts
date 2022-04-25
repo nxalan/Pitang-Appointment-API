@@ -1,5 +1,5 @@
 import { HttpResponse, HttpRequest, Controller, AddAppointment, Validation } from '.'
-import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
 
 export class AddAppointmentController implements Controller {
   constructor (
@@ -19,6 +19,9 @@ export class AddAppointmentController implements Controller {
         birthday,
         appointment_date
       })
+      if (appointment instanceof Error) {
+        return forbidden(appointment)
+      }
       return ok(appointment)
     } catch (error) {
       return serverError(error)

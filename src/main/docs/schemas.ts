@@ -4,7 +4,8 @@ import {
   appointmentSchema,
   addAppointmentParamsSchema,
   editAppointmentParamsSchema,
-  appointmentRestrictedDatesSchema
+  appointmentRestrictedDatesSchema,
+  appointmentIdSchema
 } from './schemas/'
 
 export default {
@@ -12,6 +13,7 @@ export default {
   appointment: appointmentSchema,
   appointments: appointmentsSchema,
   appointmentWithId: appointmentSchema,
+  appointmentId: appointmentIdSchema,
   addAppointmentParams: addAppointmentParamsSchema,
   editAppointmentParams: editAppointmentParamsSchema,
   appointmentsRestrictedDates: appointmentRestrictedDatesSchema

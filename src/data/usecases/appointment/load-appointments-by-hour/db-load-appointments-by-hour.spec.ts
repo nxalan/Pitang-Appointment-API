@@ -39,7 +39,7 @@ describe('DbLoadAppointmentsByHour', () => {
   test('Should return a list of appointment on success', async () => {
     const { sut } = makeSut()
     const appointments = await sut.loadByHour(new Date().toISOString())
-    expect(appointments.length).toEqual(2)
+    expect(appointments.length).toEqual(1)
   })
 
   test('Should throw if LoadAppointmentByIdRepository throws', async () => {
