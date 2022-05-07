@@ -1,21 +1,20 @@
+# Appointment Register
 
-# Cadastro de Consultas
+> ## Success Case
 
-> ## Caso de sucesso
+1. ✅ Receive a request of type **POST** in **/api/appointment** route
+2. ✅ Validate if the required fields **name**, **birthday** and **appointment_date**
+3. ✅ Validate if **birthday** and **appointment_date** is a valid date
+4. ✅ Validate if the day of **appointment_date** does not have 20 or more recods on the database
+5. ✅ Validate if the hour of **appointment_date** does not have 2 or more records on the database
+6. ✅ Create a new **appointment** with not attended **status** and empty **appointment_commentary**
+7. ✅ Returns code **200** with **appointment** data saved on database
 
-1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/appointment**
-2. ✅ Valida dados obrigatórios **name**, **birthday** e **appointment_date**
-3. ✅ Valida que o campo **birthday** e **appointment_date** é uma data válida
-4. ✅ Valida se o dia do **appointment_date** não possui 20 registros no banco
-5. ✅ Valida se a hora **appointment_date** não possui 2 registros no banco
-6. ✅ Cria um novo **appointment** no com **status** negativo e **appointment_commentary** vazio
-7. ✅ Retorna **200** com os dados do **appointment** salvos no banco
+> ## Exceptions
 
-> ## Exceções
-
-1. ✅ Retorna erro **404** se a API não existir
-2. ✅ Retorna erro **400** se name, birthday ou appointment_date não forem fornecidos pelo client
-3. ✅ Retorna erro **400** se o campo birthday ou  appointment_date não for uma data válida
-4. ✅ Retorna erro **403** se o dia do appointment_date for já estiver 20 registros no banco
-5. ✅ Retorna erro **403** se a hora do  appointment_date for já estiver 2 registros no banco
-6. ✅ Retorna erro **500** se der erro ao tentar criar o appointment
+1. ✅ Return error code **404** if API does not exist
+2. ✅ Return error code **400** if name or birthday or appointment_date is not provided
+3. ✅ Return error code **400** if birthday or appointment_date are not a valid date
+4. ✅ Return error code **403** if the day of appointment_date already have 20 or more records on the database
+5. ✅ Return error code **403** if the hour of  appointment_date already have 2 or more records on the database
+6. ✅ Return error code **500** if a error is throw when trying to create the appointment

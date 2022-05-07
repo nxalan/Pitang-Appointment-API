@@ -5,19 +5,28 @@
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
+## Application Goal
 
-## [**Link para a documentação da API**](http://alan-appointment-api.herokuapp.com/api-docs)
+  Given the current scenario, there is a huge demand for people to take the vaccine to the COVID-19. And with that our city is in need of a simple system to carry out the appointments. The process consists of creating a portal where it will be possible to schedule patients for take the vaccine, build an API to consult the appointments made per day and hour.
 
-> ## APIs cadastradas
+  The application have some validations:
+  The maximum availability of appointment per day is 20.
+  The maximum availability of appointment per hour is 2.
 
-1. [Criar agendamento](./requirements/add-appointment.md)
-2. [Listar agendamento especifico](./requirements/get-appointment.md)
-3. [Listar todos agendamentos](./requirements/get-appointments.md)
-4. [Deletar agendamento especifico](./requirements/delete-appointment.md)
-5. [Editar agendamento especifico](./requirements/edit-appointment.md)
-6. [Listar dias e horários restritos](./requirements/get-restricted-dates.md)
+## Documentation
 
-> ## Metodologias e Designs utilizados
+* [**SWAGGER**](http://alan-appointment-api.herokuapp.com/api-docs)
+
+> ## Created APIs
+
+1. [Create Appointment](./requirements/add-appointment.md)
+2. [List Specific Appointment](./requirements/get-appointment.md)
+3. [List All Appointments](./requirements/get-appointments.md)
+4. [Delete Specific Appointment](./requirements/delete-appointment.md)
+5. [Update Specific Appointment](./requirements/edit-appointment.md)
+6. [List Restricted Days and Hours](./requirements/get-restricted-dates.md)
+
+> ## Design and Metodologies
 
 * TDD
 * Clean Architecture
@@ -31,56 +40,53 @@
 * Continuous Delivery
 * Continuous Deployment
 
-> ## Features da Aplicação
+> ## Application Features
 
-* Documentação de API com Swagger
-* API Rest com Express
-* Testes com Jest
+* API Documentation with Swagger
+* API Rest with Express
+* Tests with Jest
 * Typescript
-* Banco de dados MongoDB
-* Log de Erro
+* MongoDB Database
+* Automatic Database Error Logging
 * Middlewares
-* Validações
-* Docker e Docker-Compose
-* Deploy no Heroku
+* Validations
+* Docker and Docker-Compose
+* Heroku Deploy
 
-> ## Features de Testes
+> ## Tests Features
 
-* Testes Unitários
-* Testes de Integração (API Rest)
-* Cobertura de Testes
+* 100% of Test Coverage
+* Unit Testing
+* Integration Testing (API Rest)
 * Test Doubles
 * Mocks
 * Stubs
 * Spies
 * Fakes
 
-> ## O que cada um dos diretórios representa
+> ## What every folder represents
 
-* data: camada responsável pela regra de negócio
-* domain: camada responsável pelos casos de uso e modelos de dados
-* infra: camada responsável pela implementação dos repositories e conexão com banco
-* main: conhecido como composition root, essa é a camada mais acoplada da aplicação, onde é feito a
-  composição de todas as outras camadas
-* presentation: camada onde serão criados os controllers que terão acesso aos casos de uso da
-  camada domain
+* data: layer responsible for the business rule
+* domain: layer responsible for use cases and data models
+* infra: layer responsible for implementing repositories and database connection
+* main: known as composition root, this is the most coupled layer of the application, where all other layers are composed
+* presentation: layer where the controllers that will have access to the use cases of the domain layer will be created
 
-> ## Como iniciar a aplicação
+> ## How to start the application
 
+With Docker Compose: <br />
+1. Open the project root folder
+2. Run the command: npm run up
+3. The API will be acessible on localhost:3000* and the database will be acessible on localhost:27017*
+4. To stop the aplication run the command: npm run down
+5. To delete the database folder run the command: sudo rm -rf data
+*Is necessary to await at least 30 seconds because of the API build process
 
-Utilizando Docker-Compose: <br />
-É necessário docker e docker-compose instalados <br />
-1. Execute na raiz do projeto o comando: npm run up
-2. Aguarde 30 segundos
-3. A API estará acessivel no endereço localhost:3000
-4. O banco de dados estará acessivel no endereço localhost:27017
-5. Para parar a aplicação basta executar na raiz do projeto o comando: npm run down
-6. Para excluir o diretório onde está salvo os dados do banco basta executar o comando: sudo rm -rf data
-
-Subindo localmente: <br />
-É necessário mongodb versão 4.5+ instalado na máquina na porta 27017 <br />
-ou variavel de ambiente MONGO_URL no arquivo .env caso utilize o banco em nuvem <br />
-1. Execute na raiz do projeto o comando: npm run install
-2. Execute na raiz do projeto o comando: npm run build
-3. Execute na raiz do projeto o comando: npm run start
-4. A aplicação estará acessivel no endereço localhost:3000
+Manually: <br />
+MongoDB 4.5+ accessible on port 27017 is necessary or<br />
+you can use .env variable MONGO_URL set to a valid MongoDB 4.5+ url <br />
+1. Open the project root folder
+2. Run the command: npm run install
+3. Run the command: npm run build
+4. Run the command: npm run start
+5. The application will be acessible on localhost:3000

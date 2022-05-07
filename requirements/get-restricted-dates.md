@@ -1,12 +1,11 @@
-# Consulta de dias e horas restritos
+# List Restricted Days and Hours
 
-> ## Caso de sucesso
+> ## Success Case
 
-1. ✅ Recebe uma requisição do tipo **GET** na rota **/api/appointment/fulldates**
-2. ✅ Retorna **200** retornando uma um objeto com uma lista de **dates** referentes a dias que estão restritos e uma lista de **dates** referente a horas que estão restritas
-3. ✅ Retorna **200** com um objeto com uma lista vazia se não tiver **dates** restritas
+1. ✅ Receive a request of type **GET** in **/api/appointment/restricted-dates** route
+2. ✅ Return code **200** with an object with an array of restricted days and hours
 
-> ## Exceções
+> ## Exceptions
 
-1. ✅ Retorna erro **404** se a API não existir
-2. ✅ Retorna erro **500** se der erro ao tentar obter os appointments
+1. ✅ Return error code **404** if API does not exist
+2. ✅ Return error code **500** if a error is throw when trying to get the restricted days and hours

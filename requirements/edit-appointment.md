@@ -1,22 +1,22 @@
-# Edição de Consultas
+# Appointment Update
 
-> ## Caso de sucesso
+> ## Success Case
 
-1. ✅ Recebe uma requisição do tipo **PATCH** na rota **/api/appointment/appointment_id**
-2. ✅ Valida o dado obrigatório **appointment_id**
-3. ✅ Valida se **appointment_id** corresponse a um agendamento com o id fornecido
-4. ✅ Valida se fornecido, **appointment_date** e **birthday** é uma data válida
-5. ✅ Valida se fornecido, o dia do **appointment_date** não possui 20 registros no banco
-6. ✅ Valida se fornecido, a hora do **appointment_date** não possui 2 registros no banco
-7. ✅  Atualiza um **appointment** referente ao **appointment_id**
-8. ✅ Retorna **200** com os dados do **appointment** atualizados
+1. ✅ Receive a request of type **PATCH** in **/api/appointment/appointment_id** route
+2. ✅ Validate if the required field **appointment_id** is provided
+3. ✅ Validate if provided **appointment_id** is related to an appointment stored in database
+4. ✅ Validate **appointment_date** and **birthday** is a valid date if provided
+5. ✅ Validate **appointment_date** day does not have 20 or more records on the database if provided
+6. ✅ Validate **appointment_date** hour does not have 2 or more records on the database if provided
+7. ✅ Update the **appointment** related to the **appointment_id** provided
+8. ✅ Return code **200** with **appointment** updated data
 
-> ## Exceções
+> ## Exceptions
 
-1. ✅ Retorna erro **404** se a API não existir
-2. ✅ Retorna erro **400** se appointment_id não for fornecido
-3. ✅ Retorna erro **400** se o campo birthday ou  appointment_date não for uma data válida
-4. ✅ Retorna erro **400** se o campo appointment_id for um id inexistente
-5. ✅ Retorna erro **403** se o dia do appointment_date for já estiver 20 registros no banco
-6. ✅ Retorna erro **403** se a hora do  appointment_date for já estiver 2 registros no banco
-7. ✅ Retorna erro **500** se der erro ao tentar atualizar o appointment
+1. ✅ Return error code **404** if API does not exist
+2. ✅ Return error code **400** if id related to an appointment_id is not provided
+3. ✅ Return error code **400** if birthday or appointment_id is not a valid date, if provided
+4. ✅ Return error code **400** if provided id is not related to any appointment id on the database
+5. ✅ Return error code **403** if appointment_date day provided have 20 or more records on the database
+6. ✅ Return error code **403** if appointment_date hour provided have 2 or more records on the database
+7. ✅ Return error code **500** if a error is throw when trying to update the appointment

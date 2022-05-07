@@ -1,15 +1,15 @@
-# Consulta de consultas pelo ID
+# List Appointment By Appointment ID
 
-> ## Caso de sucesso
+> ## Success Case
 
-1. ✅ Recebe uma requisição do tipo **GET** na rota **/api/appointment/appointment_id**
-2. ✅ Validase **appointment_id** é um id valido
-3. ✅ Valida se **appointment_id** corresponde a um agendamento com o id fornecido
-4. ✅ Retorna **200** com os dados do **appointment** referente ao **appointment_id** fornecido
+1. ✅ Receive a request of type **GET** in **/api/appointment/appointment_id** route
+2. ✅ Validate if **appointment_id** provided is a valid id
+3. ✅ Validate if **appointment_id** provided is related to an stored appointment
+4. ✅ Return **200** with **appointment** data related to **appointment_id** provided
 
-> ## Exceções
+> ## Exceptions
 
-1. ✅ Retorna erro **404** se a API não existir
-2. ✅ Retorna erro **400** se appointment_id não for fornecido
-3. ✅ Retorna erro **400** se o campo appointment_id for um id inexistente
-4. ✅ Retorna erro **500** se der erro ao tentar deletar o appointment
+1. ✅ Return error code **404** if API does not exist
+2. ✅ Return error code **400** if appointment_id is not provided
+3. ✅ Return error code **400** if there is no stored appointment related to the provided appointment_id
+4. ✅ Return error code **500** if a error is throw when trying to get the appointment
